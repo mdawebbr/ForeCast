@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ForeCastDetail.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FC_Cliente">
+          <Key>
+            <PropertyRef Name="Cliente_id" />
+          </Key>
+          <Property Name="Cliente_id" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="200" />
+          <Property Name="Linha_CAP" Type="nvarchar" MaxLength="15" />
+          <Property Name="Mercado_CAP" Type="nvarchar" MaxLength="2" />
+          <Property Name="Cor" Type="nvarchar" MaxLength="10" />
+          <Property Name="Modal" Type="nvarchar" MaxLength="15" />
+          <Property Name="Mercado_VF" Type="nvarchar" MaxLength="15" />
+          <Property Name="Pais" Type="nvarchar" MaxLength="15" />
+          <Property Name="MercadoCAPId" Type="int" Nullable="false" />
+          <Property Name="MercadoVFId" Type="int" Nullable="false" />
+          <Property Name="LinhaCAPId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FC_LinhaCAP">
+          <Key>
+            <PropertyRef Name="LinhaCAPId" />
+          </Key>
+          <Property Name="LinhaCAPId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Linha_CAP" Type="nvarchar" MaxLength="25" />
+          <Property Name="MercadoCAPId" Type="int" Nullable="false" />
+          <Property Name="MercadoVFId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FC_MeioTransporte">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Icone" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FC_MercadoCAP">
+          <Key>
+            <PropertyRef Name="MercadoCAPId" />
+          </Key>
+          <Property Name="MercadoCAPId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mercado_CAP" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="FC_MercadoVF">
+          <Key>
+            <PropertyRef Name="MercadoVFId" />
+          </Key>
+          <Property Name="MercadoVFId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mercado_VF" Type="nvarchar" MaxLength="25" />
+          <Property Name="MercadoCAPId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FC_Parametro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Chave" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Valor" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FC_PlanoEmbarque">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dia" Type="int" Nullable="false" />
+          <Property Name="Mes" Type="int" Nullable="false" />
+          <Property Name="Ano" Type="int" Nullable="false" />
+          <Property Name="Valor" Type="float" Nullable="false" />
+          <Property Name="PEA_Ano" Type="int" Nullable="false" />
+          <Property Name="MeioTransporte_Id" Type="int" Nullable="false" />
+          <Property Name="Cliente_Id" Type="int" Nullable="false" />
+          <Property Name="Pacote" Type="nvarchar" MaxLength="200" />
+          <Property Name="DataEmbarque" Type="datetime" />
+          <Property Name="Quadrimestre" Type="varchar" MaxLength="2" />
+          <Property Name="Contador" Type="int" />
+        </EntityType>
+        <EntityType Name="FC_quadrimestre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Chave" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="DTInicio" Type="datetime" Nullable="false" />
+          <Property Name="DTFimValor" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FC_MeioTransporte">
+          <End Role="FC_MeioTransporte" Type="Self.FC_MeioTransporte" Multiplicity="1" />
+          <End Role="FC_PlanoEmbarque" Type="Self.FC_PlanoEmbarque" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FC_MeioTransporte">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FC_PlanoEmbarque">
+              <PropertyRef Name="MeioTransporte_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ForeCastDetailStoreContainer">
+          <EntitySet Name="FC_Cliente" EntityType="Self.FC_Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FC_LinhaCAP" EntityType="Self.FC_LinhaCAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FC_MeioTransporte" EntityType="Self.FC_MeioTransporte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FC_MercadoCAP" EntityType="Self.FC_MercadoCAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FC_MercadoVF" EntityType="Self.FC_MercadoVF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FC_Parametro" EntityType="Self.FC_Parametro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FC_PlanoEmbarque" EntityType="Self.FC_PlanoEmbarque" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FC_quadrimestre" EntityType="Self.FC_quadrimestre" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FC_MeioTransporte" Association="Self.FK_FC_MeioTransporte">
+            <End Role="FC_MeioTransporte" EntitySet="FC_MeioTransporte" />
+            <End Role="FC_PlanoEmbarque" EntitySet="FC_PlanoEmbarque" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ForeCastDetail" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FC_LinhaCAP">
+          <Key>
+            <PropertyRef Name="LinhaCAPId" />
+          </Key>
+          <Property Name="LinhaCAPId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Linha_CAP" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="MercadoCAPId" Type="Int32" Nullable="false" />
+          <Property Name="MercadoVFId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FC_MeioTransporte">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Icone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FC_PlanoEmbarque" Relationship="Self.FK_FC_MeioTransporte" FromRole="FC_MeioTransporte" ToRole="FC_PlanoEmbarque" />
+        </EntityType>
+        <EntityType Name="FC_MercadoCAP">
+          <Key>
+            <PropertyRef Name="MercadoCAPId" />
+          </Key>
+          <Property Name="MercadoCAPId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mercado_CAP" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FC_MercadoVF">
+          <Key>
+            <PropertyRef Name="MercadoVFId" />
+          </Key>
+          <Property Name="MercadoVFId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mercado_VF" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="MercadoCAPId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FC_Parametro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Chave" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Valor" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FC_PlanoEmbarque">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dia" Type="Int32" Nullable="false" />
+          <Property Name="Mes" Type="Int32" Nullable="false" />
+          <Property Name="Ano" Type="Int32" Nullable="false" />
+          <Property Name="Valor" Type="Double" Nullable="false" />
+          <Property Name="PEA_Ano" Type="Int32" Nullable="false" />
+          <Property Name="MeioTransporte_Id" Type="Int32" Nullable="false" />
+          <Property Name="Cliente_Id" Type="Int32" Nullable="false" />
+          <Property Name="Pacote" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DataEmbarque" Type="DateTime" Precision="3" />
+          <Property Name="Quadrimestre" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Contador" Type="Int32" />
+          <NavigationProperty Name="FC_MeioTransporte" Relationship="Self.FK_FC_MeioTransporte" FromRole="FC_PlanoEmbarque" ToRole="FC_MeioTransporte" />
+        </EntityType>
+        <EntityType Name="FC_quadrimestre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Chave" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DTInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DTFimValor" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_FC_MeioTransporte">
+          <End Role="FC_MeioTransporte" Type="Self.FC_MeioTransporte" Multiplicity="1" />
+          <End Role="FC_PlanoEmbarque" Type="Self.FC_PlanoEmbarque" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FC_MeioTransporte">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FC_PlanoEmbarque">
+              <PropertyRef Name="MeioTransporte_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ForeCast" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FC_LinhaCAP" EntityType="Self.FC_LinhaCAP" />
+          <EntitySet Name="FC_MeioTransporte" EntityType="Self.FC_MeioTransporte" />
+          <EntitySet Name="FC_MercadoCAP" EntityType="Self.FC_MercadoCAP" />
+          <EntitySet Name="FC_MercadoVF" EntityType="Self.FC_MercadoVF" />
+          <EntitySet Name="FC_Parametro" EntityType="Self.FC_Parametro" />
+          <EntitySet Name="FC_PlanoEmbarque" EntityType="Self.FC_PlanoEmbarque" />
+          <EntitySet Name="FC_quadrimestre" EntityType="Self.FC_quadrimestre" />
+          <AssociationSet Name="FK_FC_MeioTransporte" Association="Self.FK_FC_MeioTransporte">
+            <End Role="FC_MeioTransporte" EntitySet="FC_MeioTransporte" />
+            <End Role="FC_PlanoEmbarque" EntitySet="FC_PlanoEmbarque" />
+          </AssociationSet>
+          <EntitySet Name="FC_Cliente" EntityType="ForeCastDetail.FC_Cliente" />
+        </EntityContainer>
+        <EntityType Name="FC_Cliente">
+          <Key>
+            <PropertyRef Name="Cliente_id" />
+          </Key>
+          <Property Name="Cliente_id" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Linha_CAP" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Mercado_CAP" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Cor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Modal" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Mercado_VF" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Pais" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="MercadoCAPId" Type="Int32" Nullable="false" />
+          <Property Name="MercadoVFId" Type="Int32" Nullable="false" />
+          <Property Name="LinhaCAPId" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ForeCastDetailStoreContainer" CdmEntityContainer="ForeCast">
+          <EntitySetMapping Name="FC_LinhaCAP">
+            <EntityTypeMapping TypeName="ForeCastDetail.FC_LinhaCAP">
+              <MappingFragment StoreEntitySet="FC_LinhaCAP">
+                <ScalarProperty Name="LinhaCAPId" ColumnName="LinhaCAPId" />
+                <ScalarProperty Name="Linha_CAP" ColumnName="Linha_CAP" />
+                <ScalarProperty Name="MercadoCAPId" ColumnName="MercadoCAPId" />
+                <ScalarProperty Name="MercadoVFId" ColumnName="MercadoVFId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FC_MeioTransporte">
+            <EntityTypeMapping TypeName="ForeCastDetail.FC_MeioTransporte">
+              <MappingFragment StoreEntitySet="FC_MeioTransporte">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Icone" ColumnName="Icone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FC_MercadoCAP">
+            <EntityTypeMapping TypeName="ForeCastDetail.FC_MercadoCAP">
+              <MappingFragment StoreEntitySet="FC_MercadoCAP">
+                <ScalarProperty Name="MercadoCAPId" ColumnName="MercadoCAPId" />
+                <ScalarProperty Name="Mercado_CAP" ColumnName="Mercado_CAP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FC_MercadoVF">
+            <EntityTypeMapping TypeName="ForeCastDetail.FC_MercadoVF">
+              <MappingFragment StoreEntitySet="FC_MercadoVF">
+                <ScalarProperty Name="MercadoVFId" ColumnName="MercadoVFId" />
+                <ScalarProperty Name="Mercado_VF" ColumnName="Mercado_VF" />
+                <ScalarProperty Name="MercadoCAPId" ColumnName="MercadoCAPId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FC_Parametro">
+            <EntityTypeMapping TypeName="ForeCastDetail.FC_Parametro">
+              <MappingFragment StoreEntitySet="FC_Parametro">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Chave" ColumnName="Chave" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FC_PlanoEmbarque">
+            <EntityTypeMapping TypeName="ForeCastDetail.FC_PlanoEmbarque">
+              <MappingFragment StoreEntitySet="FC_PlanoEmbarque">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+                <ScalarProperty Name="Ano" ColumnName="Ano" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="PEA_Ano" ColumnName="PEA_Ano" />
+                <ScalarProperty Name="MeioTransporte_Id" ColumnName="MeioTransporte_Id" />
+                <ScalarProperty Name="Cliente_Id" ColumnName="Cliente_Id" />
+                <ScalarProperty Name="Pacote" ColumnName="Pacote" />
+                <ScalarProperty Name="DataEmbarque" ColumnName="DataEmbarque" />
+                <ScalarProperty Name="Quadrimestre" ColumnName="Quadrimestre" />
+                <ScalarProperty Name="Contador" ColumnName="Contador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FC_quadrimestre">
+            <EntityTypeMapping TypeName="ForeCastDetail.FC_quadrimestre">
+              <MappingFragment StoreEntitySet="FC_quadrimestre">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Chave" ColumnName="Chave" />
+                <ScalarProperty Name="DTInicio" ColumnName="DTInicio" />
+                <ScalarProperty Name="DTFimValor" ColumnName="DTFimValor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FC_Cliente">
+            <EntityTypeMapping TypeName="ForeCastDetail.FC_Cliente">
+              <MappingFragment StoreEntitySet="FC_Cliente">
+                <ScalarProperty Name="LinhaCAPId" ColumnName="LinhaCAPId" />
+                <ScalarProperty Name="MercadoVFId" ColumnName="MercadoVFId" />
+                <ScalarProperty Name="MercadoCAPId" ColumnName="MercadoCAPId" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="Mercado_VF" ColumnName="Mercado_VF" />
+                <ScalarProperty Name="Modal" ColumnName="Modal" />
+                <ScalarProperty Name="Cor" ColumnName="Cor" />
+                <ScalarProperty Name="Mercado_CAP" ColumnName="Mercado_CAP" />
+                <ScalarProperty Name="Linha_CAP" ColumnName="Linha_CAP" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Cliente_id" ColumnName="Cliente_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

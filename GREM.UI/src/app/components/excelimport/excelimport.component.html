@@ -1,0 +1,67 @@
+<div class="container">
+    <br>
+    <h1 align='center'>Plano Embarque Carga Excel</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <input class="form-control" accept=".xls,.xlsx" type="file" #fileInput />
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary" (click)="uploadFile();">Upload File</button>
+        </div>
+    </div>
+
+    <!--Loiane-->
+    <div style="margin-top: 10px">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="customFile" (change)="onChange($event)" multiple/>
+        <label class="custom-file-label" for="customFile" id="customFileLabel">Selecionar Arquivo</label>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" [style.width]="progress + '%'">
+          {{ progress }}%
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 10px">
+      <button type="button" class="btn btn-primary" (click)="onUpload()" [disabled]="!files">Upload</button>
+    </div>
+    <!--Loiane-->
+
+    <div>
+        <h4 class="alert-success">{{message}}</h4>
+    </div>
+    <div>
+      <table class="table">
+          <tr class="btn-primary">
+              <th>Id</th>
+              <th>Dia</th>
+              <th>Mes</th>
+              <th>Ano</th>
+              <th>Valor</th>
+              <th>PEA_Ano</th>
+              <th>MeioTransporte_Id</th>
+              <th>Cliente_Id</th>
+              <th>Pacote</th>
+              <!-- <th>DataEmbarque</th>
+              <th>Quadrimestre</th>
+              <th>Contador</th> -->
+          </tr>
+          <tr *ngFor="let PlanoEmbarque of allPlanoEmbarque | async">
+              <td>{{PlanoEmbarque.Id}}</td>
+              <td>{{PlanoEmbarque.Dia }}</td>
+              <td>{{PlanoEmbarque.Mes}}</td>
+              <td>{{PlanoEmbarque.Ano}}</td>
+              <td>{{PlanoEmbarque.Valor}}</td>
+              <td>{{PlanoEmbarque.PEA_Ano}}</td>
+              <td>{{PlanoEmbarque.MeioTransporte_Id}}</td>
+              <td>{{PlanoEmbarque.Cliente_Id}}</td>
+              <td>{{PlanoEmbarque.Pacote}}</td>
+              <!-- <td>{{PlanoEmbarque.DataEmbarque}}</td>
+              <td>{{PlanoEmbarque.Quadrimestre}}</td>
+              <td>{{PlanoEmbarque.Contador}}</td> -->
+          </tr>
+      </table>
+  </div>
+</div>

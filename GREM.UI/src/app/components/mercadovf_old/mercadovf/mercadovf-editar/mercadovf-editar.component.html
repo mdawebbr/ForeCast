@@ -1,0 +1,76 @@
+<div class="col-md-12 mb-5">
+  <div class="container-fluid mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3 p-0">
+          <li class="breadcrumb-item"><a [routerLink]="['/']" routerLinkActive="router-link-active" >Início</a></li>
+          <li class="breadcrumb-item"><a [routerLink]="['/drivers']" routerLinkActive="router-link-active" >Mercado VF</a></li>
+          <li class="breadcrumb-item active" *ngIf="mercadovfSelecionado?.Id" aria-current="page">Editar</li>
+          <li class="breadcrumb-item active" *ngIf="!mercadovfSelecionado?.Id" aria-current="page">Criar</li>
+        </ol>
+      </nav>
+      <hr/>
+  </div>
+  <div class="container-fluid">
+      <div class="row">
+      <div class="col-sm-12">
+          <div class="card">
+              <div class="card-header">Mercado VF</div>
+              <div class="card-body">
+                  <form [formGroup]="MercadoVFForm">
+                      <div *ngIf="mercadovfSelecionado?.Id" class="col-sm-2">
+                         <label class="required">Mercado VF</label>
+                         <input class="form-control" id="Mercado_VF" formControlName="Mercado_VF" type="text"/>
+                      </div>
+                      <div class="row mb-2">
+                        <!-- <div *ngIf="mercadovfSelecionado?.Id" class="col-md-3" >
+                          <label for="mercadovf" class="required">Mercado VF</label>
+                          <select class="form-control" id="Mercado_VF" formControlName="Mercado_VF">
+                            <option value="0">Selecione...</option>
+                            <option *ngFor="let mercadovf of mercadovfs" [value]="mercadovf.nome">
+                              {{ mercadovf.nome }}
+                            </option>
+                          </select>
+                        </div> -->
+                        <!-- <div class="col-md-2" >
+                           <label for="mercadocap" class="required">Mercado CAP</label>
+                           <select class="form-control" id="Mercado_CAP" formControlName="Mercado_CAP">
+                            <option value="0">Selecione...</option>
+                            <option *ngFor="let mercadocap of mercadocaps" [value]="mercadocap.Id">
+                              {{ mercadocap.nome }}
+                            </option>
+                           </select>
+                        </div> -->
+                        <!-- <td class="row mb-2"> -->
+                          <mat-form-field>
+                            <mat-label>Mercado CAP</mat-label>
+                            <mat-select (selectionChange)="FillMercadoVFDDL($event)" formControlName="MercadoCAP" matTooltip="Selecione Mercado CAP" autocomplete="off">
+                              <mat-option *ngFor="let MercadoCAP of (allMercadoCAP | async)" [value]="MercadoCAP.MercadoCAPId">
+                                {{MercadoCAP.Mercado_CAP}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <!-- </td> -->
+                          <!-- <td class="row mb-2"> -->
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                          <mat-form-field>
+                            <mat-label>Mercado VF</mat-label>
+                            <mat-select (selectionChange)="FillLinhaCAPDDL($event)" formControlName="MercadoVF" matTooltip="Selecione Mercado VF" autocomplete="off">
+                              <mat-option *ngFor="let MercadoVF of (allMercadoVF | async)" [value]="MercadoVF.MercadoVFId">
+                                {{MercadoVF.Mercado_VF}}
+                              </mat-option>
+                           </mat-select>
+                          </mat-form-field>
+                          <!-- </td> -->
+                      </div>
+
+                      <button *ngIf="mercadovfSelecionado?.MercadoVFId" (click)="update()" class="btn btn-sm btn-success float-right mr-1">Atualizar</button>
+                      <button *ngIf="!mercadovfSelecionado?.MercadoVFId" (click)="saveNew()" class="btn btn-sm btn-success float-right mr-1">Salvar</button>
+                    </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

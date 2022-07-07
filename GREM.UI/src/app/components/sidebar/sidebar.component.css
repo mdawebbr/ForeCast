@@ -1,0 +1,43 @@
+.dropdown-menu
+{
+    transform: translate(20px,20px) !important; 
+}
+
+.objectClick
+{
+    cursor: pointer;
+}
+
+
+
+
+@media only screen and (min-width: 200px) and (max-width: 700px) {
+    .badge-mail
+    {
+        font-size: 50% !important;
+    }
+  }
+
+
+  @media only screen and (min-width: 700px) and (max-width: 765px) {
+    .badge-mail
+    {
+        font-size: 50% !important;
+    }
+  }
+  @media only screen and (min-width: 765px) and (max-width: 1023px) {
+    .badge-mail
+    {
+        font-size: 50% !important;
+    }
+  }
+
+  @media only screen and (min-width: 1024px) and (max-width: 1270px) {
+    .badge-mail
+    {
+        font-size: 50% !important;
+    }
+  }
+
+  
+  

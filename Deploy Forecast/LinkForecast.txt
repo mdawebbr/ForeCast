@@ -1,0 +1,2 @@
+http://terbrdspm01v01.ternium.techint.net:8080/webstart/
+http://terbrdspm01v01.ternium.techint.net:8080/webstart1/

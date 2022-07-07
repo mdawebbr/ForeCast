@@ -1,0 +1,25 @@
+comandos Angular
+ng build --configuration=dev
+ng build --configuration=production
+
+ng build --configuration=dev
+Angular.json
+"baseHref": "/webstart/",
+"deployUrl": "/webstart/",
+
+trocar para sql do servidor no webconfig 
+<!--Dapper = TERBRDSPM02V01 Servidor SQL Ternium-->
+<!--Dapperlocal = SRV2012R2-01   Servidor SQL Local-->
+<!--<add key="dapperkey" value="Dapper"/>-->
+<add key="dapperkey" value="Dapperlocal"/>
+
+ConnectionFactory 
+return ConfigurationManager.ConnectionStrings["Dapper"].ConnectionString;
+return ConfigurationManager.ConnectionStrings["Dapperlocal"].ConnectionString;
+
+trocar no web.config a string de coneção ForeCast Entity Framework para o servidor que sera usado Ternium ou Local
+estou vendo se da pra automatizar isso no web.config
+
+Zipar diretorio GREM.UI\dist\dev e enviar para o Servidor
+
+Renomerar web.config

@@ -1,0 +1,31 @@
+<div cdkDropListGroup>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Disponíveis</label>
+                    <div 
+                        class="box"
+                        cdkDropList
+                        [cdkDropListData]="list1"
+                        (cdkDropListDropped)="drop($event)"
+                    >
+                        <div class="btn btn-sm btn-light m-1" cdkDrag *ngFor="let item of list1">
+                            {{ item }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>Selecionados</label>
+                    <div
+                        class="box"
+                        cdkDropList
+                        [cdkDropListData]="list2"
+                        (cdkDropListDropped)="drop($event)"
+                    >
+                        <div class="btn btn-sm btn-light m-1" cdkDrag *ngFor="let item of list2">
+                            {{ item }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <small>Clique e arraste para movimentar as cargas.</small>
+        </div>

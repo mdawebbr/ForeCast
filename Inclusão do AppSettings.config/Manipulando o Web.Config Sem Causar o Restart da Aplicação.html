@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<!-- saved from url=(0106)http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx -->
+<html lang="pt-br-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Manipulando o Web.Config Sem Causar o Restart da Aplicação
+</title><meta id="PageDescription" name="Description" content="Usualmente gravamos diversas configurações no web.config na tag appSettings que são utilizadas em nossas aplicações. É comum receber e-mail ou perguntas pelo MSN com a seguinte questão: Como se pode criar uma interface para alterar e manipular estes parâmetros do web.config  em tempo de execução pela aplicação."><meta id="PageKeywords" name="Keywords" content="Manipulando o Web.Config Sem Causar o Restart da Aplicação"><meta name="language" content="pt-br"><meta id="viewport" name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=3.0,initial-scale=1.0"><link href="https://plus.google.com/100240100485097203227" rel="publisher"><link id="PageCanonical" rel="canonical" href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx">
+	<style>
+		*:before, *:after {
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+	</style>
+    <link href="http://www.linhadecodigo.com.br/img/favicon.ico" rel="shortcut icon" type="image/x-icon"><link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/master.css" rel="stylesheet" type="text/css"><link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/content.css" rel="stylesheet" type="text/css"><link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/grid.css" rel="stylesheet" type="text/css"><link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/grid-responsive.css" rel="stylesheet" type="text/css"><link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/lc-header-footer.css" rel="stylesheet" type="text/css"><link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/form_style.css" rel="stylesheet" type="text/css"><link rel="stylesheet" href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/font-awesome.min.css">
+    <script async="" referrerpolicy="unsafe-url" type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/v2"></script><script async="" referrerpolicy="unsafe-url" type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/v2(1)"></script><script async="" referrerpolicy="unsafe-url" type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/v2(2)"></script><script src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/sdk.js.download" async="" crossorigin="anonymous"></script><script src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/cb=gapi.loaded_1" async=""></script><script src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/cb=gapi(1).loaded_0" async=""></script><script async="" referrerpolicy="unsafe-url" type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/d6atTCQpKr4BnYacwqm_6l.js.download"></script><script id="facebook-jssdk" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/sdk.js(1).download"></script><script type="text/javascript" async="" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/ga.js.download"></script><script type="text/javascript" id="async-buttons" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/async-buttons.js.download"></script><script async="" type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/ti.js.download"></script><script type="text/javascript" async="" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/plusone.js.download" gapi_processed="true"></script><script src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/jquery.min.js.download"></script>
+    <script src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/jquery.infieldlabel.min.js.download" type="text/javascript"></script>
+    <script src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/menu.desktop.js.download" type="text/javascript"></script>
+    <script src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/funcoes_lc.js.download" type="text/javascript"></script>
+    <script type="text/javascript">
+        window.___gcfg = { lang: 'pt-BR' };
+        (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+        
+        function loadpromocao() {
+            //alert("teste");
+            $.ajax({
+                type: "GET",
+                url: "/promocao/loadpromo.asp",
+                dataType: "text",
+                success: function(responseText) {
+                    //alert(responseText);
+                    $("#promoview").html(responseText);
+                    setTimeout(function() { loadpromocao() }, 1000);
+                },
+                error: function() {
+                    //alert("Ocorreu um erro, você será redirecionado para a página da promoção");
+                    setTimeout(function() { loadpromocao() }, 1000);
+                }
+            });
+            
+        }
+        function hidepromo(a) {
+            if (a == 0) {
+                document.getElementById("bgplusone").style.display = "none";
+                document.getElementById("boxplusoneall").style.display = "none";
+            } else {
+                $("#promocaobtn").show();
+                document.getElementById("bgplusone").style.display = "block";
+                document.getElementById("boxplusoneall").style.display = "block";
+                document.getElementById("promocaotext").focus();
+            }
+        }
+        $(document).ready(function() {
+            //if (plusone != null && plusone != "") { showhidePlusOne(0); }
+            $(".labelInfield").inFieldLabels();
+
+            $('#top10-widget h3').click(function() {
+                var id = $(this).attr('id');
+                if (id == 'title-articles-widget') {
+                    $('#title-author-widget').addClass('inactive-tab');
+                    $('#title-articles-widget').removeClass('inactive-tab');
+                    $('#author-list').fadeOut(function() {
+                        $('#articles-list').fadeIn();
+                    });
+
+                } else {
+                    $('#title-articles-widget').addClass('inactive-tab');
+                    $('#title-author-widget').removeClass('inactive-tab');
+                    $('#articles-list').fadeOut(function() {
+                        $('#author-list').fadeIn();
+                    });
+                };
+
+            });
+        });
+    </script>
+    <!-- BEGIN Tynt Script -->
+        <script type="text/javascript">
+        if(document.location.protocol=='http:'){
+         var Tynt=Tynt||[];Tynt.push('d6atTCQpKr4BnYacwqm_6l');Tynt.i={"ap":"Read more:"};
+         (function(){var s=document.createElement('script');s.async="async";s.type="text/javascript";s.src='http://tcr.tynt.com/ti.js';var h=document.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})();
+        }
+        </script>
+    <!-- END Tynt Script -->
+    
+<meta property="og:image" content="http://www.linhadecodigo.com.br/img/logoLc.png">
+<link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/shCore.css" rel="stylesheet" type="text/css">
+<link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/shThemeDefault.css" rel="stylesheet" type="text/css">
+<link href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/uniform.default.min.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/jquery.uniform.min.js.download"></script>
+<script type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/querystring.js.download"></script>
+<script type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/jquery.cookie.js.download"></script>
+<script type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/shCore.js.download"></script>
+<script type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/shBrushJScript.js.download"></script>
+<script type="text/javascript">var switchTo5x = true;</script><script type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/buttons.js.download"></script><script type="text/javascript">stLight.options({ publisher: '7fba8974-a42c-4d1b-96a9-4249a82ce8c0', onhover: false });</script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>	
+<style type="text/css">
+.article img { max-width: 100%; }
+.main-content h3 a.rss-icon { color: #EC7423; }
+.main-content h3 a.rss-icon:hover,
+.main-content h3 a.rss-icon:focus { text-decoration: none; color: #302f31; }
+</style>
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15063568-1']);
+    _gaq.push(['_setDomainName', '.linhadecodigo.com.br']);
+    _gaq.push(['_trackPageview']);
+	_gaq.push(['_trackPageLoadTime']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script><link rel="stylesheet" type="text/css" href="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/buttons-secure.css"><script type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/get_counts"></script><script type="text/javascript" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/plusone.js.download" gapi_processed="true"></script><style type="text/css" data-fbcssmodules="css:fb.css.base css:fb.css.dialog css:fb.css.iframewidget css:fb.css.customer_chat_plugin_iframe">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_dialog_advanced{border-radius:8px;padding:10px}.fb_dialog_content{background:#fff;color:#373737}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{left:5px;right:auto;top:5px}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{height:100%;left:0;margin:0;overflow:visible;position:absolute;top:-10000px;transform:none;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{background:none;height:auto;min-height:initial;min-width:initial;width:auto}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{clear:both;color:#fff;display:block;font-size:18px;padding-top:20px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .4);bottom:0;left:0;min-height:100%;position:absolute;right:0;top:0;width:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_mobile .fb_dialog_iframe{position:sticky;top:0}.fb_dialog_content .dialog_header{background:linear-gradient(from(#738aba), to(#2c4987));border-bottom:1px solid;border-color:#043b87;box-shadow:white 0 1px 1px -1px inset;color:#fff;font:bold 14px Helvetica, sans-serif;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:linear-gradient(from(#4267B2), to(#2a4887));background-clip:padding-box;border:1px solid #29487d;border-radius:3px;display:inline-block;line-height:18px;margin-top:3px;max-width:85px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{background:none;border:none;color:#fff;font:bold 12px Helvetica, sans-serif;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #4a4a4a;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f5f6f7;border:1px solid #4a4a4a;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-position:50% 50%;background-repeat:no-repeat;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}
+.fb_mpn_mobile_landing_page_slide_out{animation-duration:200ms;animation-name:fb_mpn_landing_page_slide_out;transition-timing-function:ease-in}.fb_mpn_mobile_landing_page_slide_out_from_left{animation-duration:200ms;animation-name:fb_mpn_landing_page_slide_out_from_left;transition-timing-function:ease-in}.fb_mpn_mobile_landing_page_slide_up{animation-duration:500ms;animation-name:fb_mpn_landing_page_slide_up;transition-timing-function:ease-in}.fb_mpn_mobile_bounce_in{animation-duration:300ms;animation-name:fb_mpn_bounce_in;transition-timing-function:ease-in}.fb_mpn_mobile_bounce_out{animation-duration:300ms;animation-name:fb_mpn_bounce_out;transition-timing-function:ease-in}.fb_mpn_mobile_bounce_out_v2{animation-duration:300ms;animation-name:fb_mpn_fade_out;transition-timing-function:ease-in}.fb_customer_chat_bounce_in_v2{animation-duration:300ms;animation-name:fb_bounce_in_v2;transition-timing-function:ease-in}.fb_customer_chat_bounce_in_from_left{animation-duration:300ms;animation-name:fb_bounce_in_from_left;transition-timing-function:ease-in}.fb_customer_chat_bounce_out_v2{animation-duration:300ms;animation-name:fb_bounce_out_v2;transition-timing-function:ease-in}.fb_customer_chat_bounce_out_from_left{animation-duration:300ms;animation-name:fb_bounce_out_from_left;transition-timing-function:ease-in}.fb_invisible_flow{display:inherit;height:0;overflow-x:hidden;width:0}@keyframes fb_mpn_landing_page_slide_out{0%{margin:0 12px;width:100% - 24px}60%{border-radius:18px}100%{border-radius:50%;margin:0 24px;width:60px}}@keyframes fb_mpn_landing_page_slide_out_from_left{0%{left:12px;width:100% - 24px}60%{border-radius:18px}100%{border-radius:50%;left:12px;width:60px}}@keyframes fb_mpn_landing_page_slide_up{0%{bottom:0;opacity:0}100%{bottom:24px;opacity:1}}@keyframes fb_mpn_bounce_in{0%{opacity:.5;top:100%}100%{opacity:1;top:0}}@keyframes fb_mpn_fade_out{0%{bottom:30px;opacity:1}100%{bottom:0;opacity:0}}@keyframes fb_mpn_bounce_out{0%{opacity:1;top:0}100%{opacity:.5;top:100%}}@keyframes fb_bounce_in_v2{0%{opacity:0;transform:scale(0, 0);transform-origin:bottom right}50%{transform:scale(1.03, 1.03);transform-origin:bottom right}100%{opacity:1;transform:scale(1, 1);transform-origin:bottom right}}@keyframes fb_bounce_in_from_left{0%{opacity:0;transform:scale(0, 0);transform-origin:bottom left}50%{transform:scale(1.03, 1.03);transform-origin:bottom left}100%{opacity:1;transform:scale(1, 1);transform-origin:bottom left}}@keyframes fb_bounce_out_v2{0%{opacity:1;transform:scale(1, 1);transform-origin:bottom right}100%{opacity:0;transform:scale(0, 0);transform-origin:bottom right}}@keyframes fb_bounce_out_from_left{0%{opacity:1;transform:scale(1, 1);transform-origin:bottom left}100%{opacity:0;transform:scale(0, 0);transform-origin:bottom left}}@keyframes slideInFromBottom{0%{opacity:.1;transform:translateY(100%)}100%{opacity:1;transform:translateY(0)}}@keyframes slideInFromBottomDelay{0%{opacity:0;transform:translateY(100%)}97%{opacity:0;transform:translateY(100%)}100%{opacity:1;transform:translateY(0)}}</style></head>
+<body>
+<div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div></div></div></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.3&appId=557561654385120";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="dm-shadow"></div>
+<div class="dm-shell">
+
+<script>
+$(document).ready(function() {
+	'use strict';
+	
+	$(document).on("submit", "#buscaArtigos" ,function(e){
+		if ($('#Pesquisar').val() == "") {
+			e.preventDefault();
+			e.stopPropagation();
+			window.location = "http://www.linhadecodigo.com.br/todosartigos.aspx";
+		}
+	});
+});
+</script>	
+	<header>
+		<span class="opacity"></span>
+		<nav class="lateral" style="height: 904px;">
+			<ul style="height: 904px;">
+				<li><strong><a href="http://www.linhadecodigo.com.br/"><span class="font-dev">Bem</span><span class="font-media">vindo</span><span class="icon fa fa-home"></span></a></strong></li>
+				<li><a href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx#" class="back" data-main="true">Voltar</a></li>
+				
+				<li><a href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx#" rel="nofollow"><span class="icon2 fa fa-desktop"></span>Canais<span></span></a>
+					<ul>
+						<li><h5>Canais<span class="icon fa fa-desktop"></span></h5></li>
+						<li><a href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx#" class="back">Voltar</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/php.aspx">PHP</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/cms.aspx">CMS</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/python.aspx">Python</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/java.aspx">Java</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/aspnet.aspx">.net</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/html.aspx">HTML</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/css.aspx">CSS</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/javascript.aspx">Javascript</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/bancodedados.aspx">Banco de dados</a></li>
+						<li><a href="http://www.linhadecodigo.com.br/todosartigos.aspx">Todos</a></li>
+					</ul>
+				</li>
+				<li><a href="mailto:colabore@linhadecodigo.com.br" rel="nofollow"><span class="icon2 fa fa-headphones"></span>Fale Conosco</a></li>
+				<li><a href="http://www.linhadecodigo.com.br/feed/" rel="nofollow"><span class="icon2 fa fa-rss"></span>RSS</a></li>
+				
+			</ul>
+		</nav>
+		<nav class="dm-bgnav-out">
+			<div class="container-fluid dm-bgnav">
+				<div class="container">
+					<div class="devmenu">
+						<i><a href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx#" class="menu"></a></i>
+						<a class="logo-mob" href="http://www.linhadecodigo.com.br/">
+						<span class="font-dev">Linha</span><span class="font-media"> de Código</span>
+						</a>
+						<span id="headermenudesktop"><ul class="navspace menucel ativo2 dm-2"><li><a href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx#" rel="nofollow" class="menulink">Desenvolvimento &nbsp;<small>▼</small></a><ul class="submenu"><li><a href="http://www.linhadecodigo.com.br/php.aspx">PHP</a></li><li><a href="http://www.linhadecodigo.com.br/cms.aspx">CMS</a></li><li><a href="http://www.linhadecodigo.com.br/python.aspx">Python</a></li><li><a href="http://www.linhadecodigo.com.br/java.aspx">Java</a></li><li><a href="http://www.linhadecodigo.com.br/aspnet.aspx">.net</a></li><li><a href="http://www.linhadecodigo.com.br/bancodedados.aspx">Banco de dados</a></li><a href="http://www.linhadecodigo.com.br/todosartigos.aspx" class="btn-dm-nav">Todos</a></ul></li></ul><ul class="navspace menucel ativo3 dm-2"><li><a href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx#" rel="nofollow" class="menulink">Front-end &nbsp;<small>▼</small></a><ul class="submenu"><li><a href="http://www.linhadecodigo.com.br/html.aspx">HTML</a></li><li><a href="http://www.linhadecodigo.com.br/css.aspx">CSS</a></li><li><a href="http://www.linhadecodigo.com.br/javascript.aspx">Javascript</a></li></ul></li></ul><ul class="menucel dm-2"><li><a href="http://www.linhadecodigo.com.br/bancodedados.aspx" class="menulink2">Banco de dados</a></li></ul><ul class="navspace menucel ativo2 dm-4"><li><a href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx#" rel="nofollow" class="menulink">Em destaque &nbsp;<small>▼</small></a><ul class="submenu"><li><a href="http://www.linhadecodigo.com.br/artigo/3593/alert-em-javascript.aspx">Alert em Javascript</a></li><li><a href="http://www.linhadecodigo.com.br/artigo/3604/calendario-em-jquery-criando-calendarios-com-datepicker.aspx">Crie calendários usando o Datepicker do Jquery</a></li><li><a href="http://www.linhadecodigo.com.br/artigo/3474/menu-em-css-menu-dropdown-horizontal-com-html5-e-css3.aspx">Como criar um menu em CSS</a></li><li><a href="http://www.linhadecodigo.com.br/artigo/3602/crop-jquery-recortando-imagens-com-jcrop.aspx">Faça crop em imagens com Jquery</a></li><li><a href="http://www.linhadecodigo.com.br/artigo/3600/botao-com-css-3-como-criar-um-botao-sem-imagens.aspx">Como criar botões com CSS3</a></li></ul></li></ul><ul class="menucel dm-4"><li><a href="http://www.linhadecodigo.com.br/publique.aspx" class="menulink2">Publique</a></li></ul></span>
+							<span id="WUC_Topo_Novo_lblTeste" class="aspNetDisabled"></span>
+							<span id="WUC_Topo_Novo_boxLogin" class="login-box"><div class="login-btn"><div class="popover1">Login</div><div class="pai"><div class="login-pop deslogado"><div class="login-form"><div class="seta"></div><form name="f1" class="form-inline" method="POST"><input type="text" name="userlogin" class="input-medium pull-left" placeholder="Usuário"><input type="password" name="usersenha" class="input-medium pull-right" placeholder="Senha"><input type="hidden" name="login" value="Login"><br><button type="submit">OK</button></form></div></div></div></div></span>
+					</div>
+				</div>
+			</div>
+		</nav><!-- FIM MENU DESKTOP -->
+		<div class="container-fluid dm-busca"><!-- BLOCO TOPO -->
+			<div class="container">
+				<div class="row-fluid">
+					<a href="http://www.linhadecodigo.com.br/"><img src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/logolc.png" alt="Linha de Código" title="Linha de Código"></a>
+					<!-- BUSCA EM TELA DESKTOP E TABLET -->
+					<nav id="busca">
+						<form id="buscaArtigos" action="http://www.linhadecodigo.com.br/busca.aspx">
+						<input type="text" id="Pesquisar" name="w" placeholder="Pesquisar">
+						<button type="submit"></button>
+						</form>
+					</nav>
+				</div>
+			</div>
+		</div><!-- FIM BLOCO TOPO -->
+	</header><!-- BLOCO DESTAQUES -->
+	<section class="container-fluid">
+		<div class="container">
+			<div class="row-fluid">
+				
+<div id="conteudo" class="main-content">
+    <span id="ContentPlaceHolder1_lblNomeCanal" class="title-page"><h3>Desenvolvimento<span> - <a href="http://www.linhadecodigo.com.br/aspnet.aspx" style="font-size: 20px;">ASP. NET</a></span><a class="rss-icon fr" href="http://www.linhadecodigo.com.br/rssartigosautor.aspx?autor=52" target="_blank"><i class="fa fa-rss-square fa-lg" title="Feed de artigos deste autor" alt="Feed de artigos deste autor"></i></a></h3></span>
+    <div style="word-wrap:break-word;">
+    <span id="ContentPlaceHolder1_lblTitulo"><h1>Manipulando o Web.Config Sem Causar o Restart da Aplicação<br><p>Usualmente gravamos diversas configurações no web.config na tag appSettings que são utilizadas em nossas aplicações. É comum receber e-mail ou perguntas pelo MSN com a seguinte questão: Como se pode criar uma interface para alterar e manipular estes parâmetros do web.config  em tempo de execução pela aplicação.</p><span>por <a href="http://www.linhadecodigo.com.br/colaborador.aspx?id=52">Fernando Cerqueira</a></span></h1></span>
+    <span id="ContentPlaceHolder1_lblSocialShareArticle"><div id="social-share-article"><span class="st_facebook_hcount" displaytext="Facebook" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span><span class="stMainServices st-facebook-counter" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/facebook_counter.png&quot;);">&nbsp;</span><span class="stArrow"><span class="stButton_gradient stHBubble" style="display: inline-block;"><span class="stBubble_hcount">0</span></span></span></span></span></span><span class="st_twitter_hcount" displaytext="Tweet" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span><span class="stMainServices st-twitter-counter" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/twitter_counter.png&quot;);">&nbsp;</span><span class="stArrow"><span class="stButton_gradient stHBubble" style="display: inline-block;"><span class="stBubble_hcount">48</span></span></span></span></span></span><span class="st_linkedin_hcount" displaytext="LinkedIn" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span><span class="stMainServices st-linkedin-counter" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/linkedin_counter.png&quot;);">&nbsp;</span><span class="stArrow"><span class="stButton_gradient stHBubble" style="display: inline-block;"><span class="stBubble_hcount">0</span></span></span></span></span></span><span class="st_email_hcount" displaytext="Email" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span><span class="stMainServices st-email-counter" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/email_counter.png&quot;);">&nbsp;</span><span class="stArrow"><span class="stButton_gradient stHBubble" style="display: inline-block;"><span class="stBubble_hcount">2</span></span></span></span></span></span><span class="st_plusone_hcount" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" style="margin-left:5px;" st_processed="yes"><div style="display:inline-block;overflow:hidden;line-height:0px;position:relative;vertical-align:middle;bottom:0px;width:75px; height:21px;">&nbsp;<div id="___plusone_0" style="position: absolute; width: 450px; left: -10000px;"><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position:absolute;top:-10000px;width:450px;margin:0px;border-style:none" tabindex="0" vspace="0" width="100%" id="I0_1649535494569" name="I0_1649535494569" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/fastbutton.html" data-gapiattached="true"></iframe></div><g:plusone href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx" size="medium" count="true" callback="plusoneCallback" data-gapiscan="true" data-onload="true" data-gapistub="true"></g:plusone></div></span><span class="st_fblike_hcount" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" style="margin-left:-5px;" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;position:relative;margin:3px 3px 0;padding:0px;font-size:11px;line-height:0px;vertical-align:bottom;overflow:visible;"><div data-action="" data-send="false" data-layout="button_count" data-show-faces="false" class="fb-like fb_iframe_widget" data-href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=&amp;app_id=557561654385120&amp;container_width=0&amp;href=http%3A%2F%2Fwww.linhadecodigo.com.br%2Fartigo%2F1120%2Fmanipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx&amp;layout=button_count&amp;locale=pt_BR&amp;sdk=joey&amp;send=false&amp;show_faces=false"><span style="vertical-align: bottom; width: 130px; height: 28px;"><iframe name="f28d1aa1cd7527c" width="1000px" height="1000px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/like.html" style="border: none; visibility: visible; width: 130px; height: 28px;" class=""></iframe></span></div></span></span></div><br><br></span>
+    <span id="ContentPlaceHolder1_lblTexto" class="artigo"><div class="article"><p class="MsoNormal">
+        <span>Usualmente gravamos diversas configurações
+            no <b>web.config</b> na tag<b>
+                appSettings</b> que são utilizadas em nossas aplicações. É comum receber e-mail
+            ou perguntas pelo MSN com a seguinte questão:
+            
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p align="center" class="MsoNormal">
+        <b><i><span>“Como se pode criar uma interface para alterar e manipular
+            estes parâmetros do web.config <span></span>em tempo
+            de execução pela aplicação”</span></i></b></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Esta pergunta esbarra em dois cenários
+            que devem ser resolvidos:
+            
+        </span></i></b>
+    </p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>1) Qualquer alteração no web.config
+            causa um "restart" da aplicação, o que inviabiliza este tipo de construção.<br>
+            <br>
+            2)<span> </span>É comum é termos parâmetros distintos
+            para o ambiente de produção e o ambiente de desenvolvimento, sendo necessário também
+            modificar o web.config quando trocamos de ambiente.</span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>Algumas novas características foram
+            introduzidas no framework 2,0 que permitem resolver ambos os cenários de forma bastante
+            eficiente.</span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Resolvendo o primeiro Cenário:</span></i></b><b><span>
+                    
+                </span></b>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Alterar o web.config na tag<span>
+            </span>appSettings sem causar o restart da aplicação</span></i></b></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>Temos agora no framework 2.0 um
+            novo atributo para a tag <b><i>
+                appSettings :</i></b></span></p>
+    <p class="MsoNormal">
+        <b><i><span>
+            
+        </span></i></b>
+    </p>
+    <p class="MsoNormal">
+        <b><span>configSource
+            – Informar um caminho relativo de um arquivo para definição da uma sessão executando
+            um include em tempo de execução.</span></b></p>
+    <p class="MsoNormal">
+        <b><span>
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <span>Este atributo pode ser aplicado
+            em qualquer sessão do web.config porem causa o restart da aplicação quando o arquivo
+            externo é alterado, com exceção de uma única sessão :<b>AppSetting!</b></span></p>
+    <p class="MsoNormal">
+        <b><span>
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <span>Quando se define este atributo não
+            pode existir mais nenhum outro atributo na sessão. Vejamos o exemplo abaixo:</span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Arquivo web.config:</span></i></b></p>
+    <p class="MsoNormal">
+        <span>&lt;</span><span>configuration</span><span>&gt;</span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>appSettings</span><span> </span><span>
+                        configSource</span><span>=</span><span>"<span>AppSettings.config</span>"<span>/&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>connectionStrings</span><span>/&gt;</span></p>
+    <p class="MsoNormal">
+        <span><span> </span>. . .<br>
+        </span><b><i>
+            <span>Arquivo AppSettings.config:</span></i></b></p>
+    <p class="MsoNormal">
+        <span>&lt;</span><span>appSettings</span><span>
+                    &gt;</span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>add</span><span> </span><span>
+                        key</span><span>=</span><span>"<span>AppAmbiente</span>"<span>
+                                </span><span>value</span><span>=</span>"<span>Desenvolvimento</span>"<span> /&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>&lt;/</span><span>appSettings</span><span>&gt;</span><b><i><span></span></i></b></p>
+    <p class="MsoNormal">
+        <b><i><span>
+            
+        </span></i></b>
+    </p>
+    <p class="MsoNormal">
+        <i><span>
+            Para testar basta criar um formulário que recupere a key “AppAmbiente”. Depois que
+            estiver executando altere o arquivo AppSettings.config e recupere novamente a key
+            “AppAmbiente” . Vai perceber que o valor retornado será o valor alterado sem sua
+            aplicação execute um restart!</span></i></p>
+    <p class="MsoNormal">
+        <b><i><span>
+            
+        </span></i></b>
+    </p>
+    <p class="MsoNormal">
+        <span>Você deve estar se perguntando por
+            que somente a sessão <b><i>
+                AppSettings </i></b><span></span>não causa o
+            restart da aplicação... Esta pergunta é respondida descrevendo outro atributo que
+            foi introduzindo no framework 2.0: <b><i>
+                restartOnExternalChanges. </i></b>Este atributo destina-se as definições de
+            sessões informando se uma sessão (que aceita uma definição externa) executa um “restart”<span> </span>na aplicação quando ocorre uma alteração
+            no arquivo externo que foi informado.
+            <br>
+            <br>
+            A definição as sessão <b><i>
+                AppSettings </i></b>é feita no arquivo de configuração <b>
+                    machine.config</b> e tem a seguinte assinatura:</span></p>
+    <p class="MsoNormal">
+        <span>
+            <br>
+            <i>&lt;section name="appSettings" type="System.Configuration.AppSettingsSection,
+                System.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                <b><span>restartOnExternalChanges="false"</span></b>
+                requirePermission="false" /&gt;</i><br>
+            <br>
+            Isso explica o motivo de <b>não ocorrer o restart
+                na aplicação</b> quando é feito uma alteração no arquivo externo ao web.config.<br>:</span></p>
+    <p class="MsoNormal">
+        <b><span>
+            <br>
+            File - Informar um caminho relativo de um arquivo para definição da sessão appsetting
+            executando merge em tempo de execução. Caso o arquivo não exista não é executado
+            o merge e ignorado a informação de arquivo.</span></b></p>
+    <p class="MsoNormal">
+        <b><span>
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <span>Como é feito o Merge entre o que
+            existe já definido com as key’s/valores do arquivo informado no atributo <b>
+                File (<span>caso exista</span>) resolvemos o segundo cenário:</b></span></p>
+    <p class="MsoNormal">
+        <b><span>
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <span>- Na maquina de desenvolvimento
+            <b><span>Não deve existir. </span>
+            </b>Assim a informação do atributo <b>file é ignorado
+                e mantido os valores.</b></span></p>
+    <p class="MsoNormal">
+        <b><span>
+            <br>
+            - </span></b><span>Na máquina de produção
+                o arquivo<b> <span>Deve existir.</span></b><span> </span>Assim a informação do atributo <b>
+                        file é executado.</b></span></p>
+    <p class="MsoNormal">
+        <b><span>
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Resolvendo o Primeiro e Segundo Cenário
+            juntos:</span></i></b></p>
+    <p class="MsoNormal">
+        <b><i><span>
+            
+        </span></i></b>
+    </p>
+    <p class="MsoNormal">
+        <span>Conhecendo agora os dois novos atributos
+            (</span><b><span>file</span></b><span> e </span><b>
+                        <span>configSource) </span></b><span>
+                                fica fácil criar uma única abordagem para resolver os dois cenários:</span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Arquivo web.config:</span></i></b></p>
+    <p class="MsoNormal">
+        <span>&lt;</span><span>configuration</span><span>&gt;</span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>appSettings</span><span> </span><span>
+                        configSource</span><span>=</span><span>"<span>AppSettings.config</span>"<span>/&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>connectionStrings</span><span>/&gt;</span></p>
+    <p class="MsoNormal">
+        <span><span> </span>. . .<br>
+        </span><b><i>
+            <span>Arquivo AppSettings.config:</span></i></b></p>
+    <p class="MsoNormal">
+        <span>&lt;</span><span>appSettings</span><span>
+                </span><span>file</span><span>=</span><span>"<span>AppSettingsProducao.config</span>"<span>&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>add</span><span> </span><span>
+                        key</span><span>=</span><span>"<span>AppAmbiente</span>"<span>
+                                </span><span>value</span><span>=</span>"<span>Desenvolvimento</span>"<span> /&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>&lt;/</span><span>appSettings</span><span>&gt;</span><b><i><span></span></i></b></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Arquivo AppSettingsProducao.config:</span></i></b></p>
+    <p class="MsoNormal">
+        <span>&lt;?</span><span>xml</span><span>
+                </span><span>version</span><span>=</span><span>"<span>1.0</span>"<span> </span><span>
+                                    encoding</span><span>=</span>"<span>utf-8</span>"<span> ?&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>&lt;</span><span>appSettings</span><span>&gt;</span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>clear</span><span>/&gt;</span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>add</span><span> </span><span>
+                        key</span><span>=</span><span>"<span>AppAmbiente</span>"<span>
+                                </span><span>value</span><span>=</span>"<span>Produção</span>"<span> /&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>&lt;/</span><span>appSettings</span><span>&gt;</span><span></span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><span>Detalhes
+            do funcionamento na máquina de Produção: </span></b><span>
+                <br>
+            </span><span>
+                <br>
+                1) Quando a aplicação é inicializada a aplicação lê o arquivo web.config que informa
+                que a leitura da sessão <b>AppSettings</b>
+                devera ser feita no arquivo <b><i>
+                    AppSettings.config<span> </span></i></b>e incluída
+                no web.config.
+                
+            </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>
+            
+        </span></i></b>
+    </p>
+    <p class="MsoNormal">
+        <span>2) Durante a leitura do arquivo
+            <b><i>AppSettings.config</i></b><span> </span>a aplicação é informada que existe outro
+            arquivo externo (<b><i>AppSettingsProducao.config)
+            </i></b>para ser feito um merge.</span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>3) O <b>
+            arquivo é localizado</b> e após a<span> </span>execução
+            do merge a key<span> </span>“</span><b><span>AppAmbiente” </span></b><span>recebe o valor <b>
+                        "<span>Produção</span>"</b></span></p>
+    <p class="MsoNormal">
+        <b><span>
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <b><span>Detalhes
+            do funcionamento na máquina de Desenvolvimento:
+            <br>
+        </span></b><span>
+            <br>
+            1) Quando a aplicação é inicializada a aplicação lê o arquivo web.config que informa
+            que a leitura da sessão <b>AppSettings</b>
+            devera ser feita no arquivo <b><i>
+                AppSettings.config<span> </span></i></b>e incluída
+            no web.config.
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>
+            
+        </span></i></b>
+    </p>
+    <p class="MsoNormal">
+        <span>2) Durante a leitura do arquivo
+            <b><i>AppSettings.config</i></b><span> </span>a aplicação é informada que existe outro
+            arquivo externo (<b><i>AppSettingsDesenv.config)
+            </i></b>para ser feito um merge.
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>3) O arquivo <b>
+            <span>NÃO É LOCALIZADO (não deve existir em desenvolvimento)</span></b>
+            e é ignorada a execução do merge e a key “</span><b><span>AppAmbiente” </span></b><span>mantem o valor <b>
+                        "<span>Desenvolvimento</span>"</b></span></p>
+    <p class="MsoNormal">
+        <b><span>
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <b><span>Aplicação
+            de Exemplo:
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <b><span>
+            
+        </span></b>
+    </p>
+    <p class="MsoNormal">
+        <span>Antes de terminar vamos mostrar
+            um exemplo passo a passo de todo o conceito para ficar mais claro:</span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span><span>1)<span>
+                  </span></span></span><span>
+                    Crie uma aplicação web no Visual Studio Express
+                    
+                </span>
+    </p>
+    <p class="MsoNormal">
+        <span><span>2)<span>
+                  </span></span></span><span>
+                    Altere o web.config<span> </span>na tag :</span><span><span> </span>&lt;</span><span>appSettings</span><span> </span>
+        <span>configSource</span><span>=</span><span>"<span>AppSettings.config</span>"<span>/&gt;</span></span><span></span></p>
+    <p class="MsoNormal">
+        <span><span>3)<span>
+                  </span></span></span><span>
+                    Adicione a solução um arquivo XML com o nome:<span>
+                    </span>AppSettings.config</span></p>
+    <p class="MsoNormal">
+        <span><span>4)<span>
+                  </span></span></span><span>
+                    Inclua as linhas abaixo no arquivo AppSettings.config<b><i></i></b></span></p>
+    <p class="MsoNormal">
+        <span>
+            &lt;?</span><span>xml</span><span> </span><span>version</span><span>=</span><span>"<span>1.0</span>"<span>
+                                </span><span>encoding</span><span>=</span>"<span>utf-8</span>"<span> ?&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>&lt;</span><span>appSettings</span><span>
+                </span><span>file</span><span>=</span><span>"<span>AppSettingsProducao.config.off</span>"<span>&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span> </span>&lt;</span><span>add</span><span> </span><span>
+                        key</span><span>=</span><span>"<span>AppAmbiente</span>"<span>
+                                </span><span>value</span><span>=</span>"<span>Desenvolvimento</span>"<span> /&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>&lt;/</span><span>appSettings</span><span>&gt;</span></p>
+    <p class="MsoNormal">
+        <span><span>5)<span>
+                  </span></span></span><span>
+                    Adicione a solução um arquivo XML com o nome:<span>
+                    </span>AppSettingsProducao.config</span></p>
+    <p class="MsoNormal">
+        <span><span>6)<span>
+                  </span></span></span><span>
+                    Inclua as linhas abaixo no arquivo AppSettingsProducao.config<b><i></i></b></span></p>
+    <p class="MsoNormal">
+        <span>
+            &lt;?</span><span>xml</span><span> </span><span>version</span><span>=</span><span>"<span>1.0</span>"<span>
+                                </span><span>encoding</span><span>=</span>"<span>utf-8</span>"<span> ?&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>
+            &lt;</span><span>appSettings</span><span>&gt;</span></p>
+    <p class="MsoNormal">
+        <span>
+            <span> </span>&lt;</span><span>clear</span><span>/&gt;</span></p>
+    <p class="MsoNormal">
+        <span>
+            <span> </span>&lt;</span><span>add</span><span> </span>
+        <span>
+            key</span><span>=</span><span>"<span>AppAmbiente</span>"<span>
+                    </span><span>value</span><span>=</span>"<span>Produção</span>"<span> /&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>
+            &lt;/</span><span>appSettings</span><span>&gt;</span></p>
+    <p class="MsoNormal">
+        <span><span>7)<span>
+                  </span></span></span><span>
+                    Adicione a solução um arquivo global.asax</span></p>
+    <p class="MsoNormal">
+        <span><span>8)<span>
+                  </span></span></span><span>
+                    Inclua o código abaixo no arquivo global.asax</span></p>
+    <p class="MsoNormal">
+        <span><span>  </span><span>
+            </span><span>Sub</span> Application_Start(<span>ByVal</span>
+            sender <span>As</span> <span>Object</span>,
+            <span>ByVal</span> e <span>As</span> EventArgs)</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span>Application(<span>"Status"</span>)
+            = <span>" Aplicação foi feita restart"</span></span></p>
+    <p class="MsoNormal">
+        <span><span>   </span><span>End</span>
+            <span>Sub</span></span><span></span></p>
+    <p class="MsoNormal">
+        <span><span>9)<span>
+                  </span></span></span><span>
+                    Inclua o código dentro da &lt;DIV&gt; abaixo dentro do arquivo default.aspx<b><i></i></b></span></p>
+    <p class="MsoNormal">
+        <span><span> </span><span>&lt;</span><span>form</span> <span>id</span><span>="form1"</span>
+            <span>runat</span><span>="server"&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span>
+            <span> </span></span><span><span></span><span>&lt;</span><span>div</span><span>&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span>    </span>Application Evento
+            Start :</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                &lt;</span><span>asp</span><span>:</span><span>Label</span> <span>ID</span><span>="Label3"</span>
+            <span>runat</span><span>="server"</span>
+            <span>Text</span><span>=""&gt;&lt;/</span><span>asp</span><span>:</span><span>Label</span><span>&gt;&lt;</span><span>br</span>
+            <span>/&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span>    </span>Sessão :</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                &lt;</span><span>asp</span><span>:</span><span>Label</span> <span>ID</span><span>="Label2"</span>
+            <span>runat</span><span>="server"</span>
+            <span>Text</span><span>=""&gt;&lt;/</span><span>asp</span><span>:</span><span>Label</span><span>&gt;&lt;</span><span>br</span>
+            <span>/&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span>    </span>Ambiente :</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                &lt;</span><span>asp</span><span>:</span><span>Label</span> <span>ID</span><span>="Label1"</span>
+            <span>runat</span><span>="server"</span>
+            <span>Text</span><span>=""&gt;&lt;/</span><span>asp</span><span>:</span><span>Label</span><span>&gt;</span><span>&amp;nbsp;</span><span>&lt;</span><span>br</span> <span>/&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                &lt;</span><span>br</span> <span>/&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                &lt;</span><span>asp</span><span>:</span><span>Button</span> <span>ID</span><span>="Button1"</span>
+            <span>runat</span><span>="server"</span>
+            <span>Text</span><span>="Atualizar"</span>
+            <span>/&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span>  </span><span>&lt;/</span><span>div</span><span>&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span> </span><span>&lt;/</span><span>form</span><span>&gt;</span></span></p>
+    <p class="MsoNormal">
+        <span><span>10)</span></span><span>Inclua na classe do formulário o código abaixo:</span><span></span></p>
+    <p class="MsoNormal">
+        <span><span>  </span><span>Protected</span>
+            <span>Sub</span> Page_Load(<span>ByVal</span>
+            sender <span>As</span> <span>Object</span>,
+            <span>ByVal</span> e <span>As</span> System.EventArgs)
+            <span>Handles</span> <span>Me</span>.Load</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                If</span> <span>Not</span> Page.IsPostBack <span>
+                    Then</span></span></p>
+    <p class="MsoNormal">
+        <span><span>      </span>Session(<span>"VarSession"</span>) = Session.SessionID</span></p>
+    <p class="MsoNormal">
+        <span><span>      </span>VerTeste()</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                End</span> <span>If</span></span></p>
+    <p class="MsoNormal">
+        <span><span>  </span><span>End</span>
+            <span>Sub</span></span></p>
+    <p class="MsoNormal">
+        <span><span>  </span><span>Protected</span>
+            <span>Sub</span> Button1_Click(<span>ByVal</span>
+            sender <span>As</span> <span>Object</span>,
+            <span>ByVal</span> e <span>As</span> System.EventArgs)
+            <span>Handles</span> Button1.Click</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span>VerTeste()</span></p>
+    <p class="MsoNormal">
+        <span><span>  </span><span>End</span>
+            <span>Sub</span></span></p>
+    <p class="MsoNormal">
+        <span><span>  </span><span>Private</span>
+            <span>Sub</span> VerTeste()</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                Me</span>.Label1.Text = ConfigurationManager.AppSettings(<span>"AppAmbiente"</span>).ToString</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                Me</span>.Label2.Text = Session(<span>"VarSession"</span>)</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span><span>
+                Me</span>.Label3.Text = Application(<span>"Status"</span>)</span></p>
+    <p class="MsoNormal">
+        <span><span>    </span>Application(<span>"Status"</span>)
+            = <span>"Aplicação Sem Restart"</span></span></p>
+    <p class="MsoNormal">
+        <span><span>  </span><span>End</span>
+            <span>Sub</span></span></p>
+    <p class="MsoNormal">
+        <span><span>11)</span></span><span>Compile a aplicação e execute </span><span>
+                    
+                </span>
+    </p>
+    <p class="MsoNormal">
+        <span><span>12)</span></span><span>Altere o conteúdo </span><span>key</span><span>=</span><span>"<span>AppAmbiente</span>" no arquivo </span>
+        <span>AppSettings.config e salve</span><span></span></p>
+    <p class="MsoNormal">
+        <span><span>13)</span></span><span>Clique no botão de Atualizar</span><span></span></p>
+    <p class="MsoNormal">
+        <span><span>14)</span></span><span>Altere o conteúdo </span><span>file</span><span>=</span><span>"<span>AppSettingsProducao.config.off</span>"
+                            para <span>file</span><span>=</span>"<span>AppSettingsProducao.config</span>" e salve</span><span></span></p>
+    <p class="MsoNormal">
+        <span><span>15)</span></span><span>Clique no botão de Atualizar</span><span></span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Indo um pouco além:</span></i></b></p>
+    <p class="MsoNormal">
+        <span>
+            <br>
+            Se observar com atenção já percebeu que com esta estrutura proposta podemos ter
+            múltiplos arquivos de configuração na produção podendo escolher entre eles apenas
+            alterado o atributo <b><i>
+                FILE. </i></b>Este<b><i>
+                </i></b>recurso expande as possibilidades de configuração da aplicação, mas
+            podemos ir alem.</span></p>
+    <p class="MsoNormal">
+        <span>
+            <br>
+            No inicio do artigo falamos de dois atributos (</span><b><span>configSource e </span></b><b>
+                    <span>restartOnExternalChanges</span></b><span>). O primeiro atributo (<b><i>configSource)</i></b> pode ser definido
+                        no arquivo web.config para algumas tag’s<span> </span>
+                        :<span> </span><i>
+                            AppSettings , connectionStrings , siteMap , membership , smtpMail</i> etc. Uma
+                        lista completa pode ser encontrada no SDK do produto.</span></p>
+    <p class="MsoNormal">
+        <span>
+            <br>
+            O segundo atributo <b><i>
+                restartOnExternalChanges</i></b> pode ser definido no <b>
+                    web.config para sessões customizada.<span> </span>
+                </b>As sessões default / padrão do framework definidas pelo arquivo <b>
+                    machine.config</b> <b>não podem ser alteradas no
+                        web.config</b> , porem podemos alterar estas definições no próprio arquivo
+            <b>machine.config </b>permitindo alterar os
+            arquivos externos sem causar o restart da aplicação.<span>
+            </span>
+            <br>
+            <br>
+            Deve ficar claro para o desenvolvedor que estas alterações no arquivo <b>
+                machine.config </b><span></span>terá efeito
+            para todas as aplicações que rodam sobre o IIS onde esta instalado o framework.
+            Outro ponto importante é saber exatamente o efeito que uma alteração dinâmica pode
+            causar. Um exemplo é a <b>connectionStrings </b>
+            :<b> </b>Para deixar ela com o mesmo comportamento
+            do <b>AppSettings</b> basta alterar a linha
+            para :<span>  </span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <i><span>
+            &lt;section name="connectionStrings" type="System.Configuration.ConnectionStringsSection,
+            System.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+            requirePermission="false" <b><span>
+                restartOnExternalChanges="false"</span></b> /&gt;</span></i><span>
+                    
+                </span>
+    </p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>A principal pergunta quando alterar
+            neste exemplo o comportamento é: Se houve uma alteração da string de conexão provavelmente
+            você estará acessando outro banco... O que acontece se isso ocorrer no meio de um
+            processo onde já possui dado e executado a lógica baseado em resultados provenientes
+            do banco anterior?</span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>A idéia aqui é demonstrar que podemos
+            com pouco esforço deixar o framework e a configuração bem mais flexível, porem as
+            implicações de mudanças dinâmicas deve ser pensado de forma criteriosa para garantir
+            a consistência dos dados, interfaces e processos da aplicação.</span></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <b><i><span>Conclusão:</span></i></b></p>
+    <p class="MsoNormal">
+        <span>
+            
+        </span>
+    </p>
+    <p class="MsoNormal">
+        <span>Devido às novas características
+            introduzidas no framework 2.0 o desenvolvedor passou a contar com recursos de configurações
+            mais poderosos e dinâmicos, sendo possível criar as interfaces para leitura dos
+            arquivos XML de configuração e executar alterações em tempo de execução.<span>
+            </span>Alem desta facilidade tornou-se possível manter ambientes distintos sem a
+            necessidade de se alterar valores de chaves em arquivos de configuração evitando-se
+            assim erros comuns causados pelo “esquecimento”<span>
+            </span>ou alteração indevida destas chaves.
+            
+        </span>
+    </p></div></span>
+    </div>
+    <div class="author-box-article">
+        <span id="ContentPlaceHolder1_lblImgColunista"></span>
+        <span id="ContentPlaceHolder1_lblAutorDescricao"><a href="http://www.linhadecodigo.com.br/colaborador.aspx?id=52"><img src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/FCerqueira.jpg" border="=&quot;0&quot;" alt="Fernando Cerqueira" title="Fernando Cerqueira"><p>Fernando Cerqueira - <span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"><b>Microsoft</b> 
+<b>M</b>ost<b> V</b>aluable<b> P</b>rofessional em <b>ASP.NET 2004 – 2005 – 
+2006</b> . Possui formação Acadêmica em Administração de empresas, especialista 
+em Call Center , BI e CRM. Atuou em diversas empresas de grande porte, sempre 
+utilizando a plataforma Microsoft. Desde 2002 vem trabalhando com o Visual 
+Studio .NET prestando consultoria e treinamento focando os resultados em 
+ASP.NET. Em 2003, criou o GURJ.NET - Grupo de usuários .NET do Rio de Janeiro 
+sendo reconhecido pelo <b>INETA.</b> Hoje voluntariamente dedica parte de seu 
+tempo no <b>comitê de Web</b> e Infra da <b>INETA Brasil.</b> Atualmente, como 
+profissional, presta serviços exclusivamente na plataforma <b>Microsoft.NET</b> 
+atuando como <b>arquiteto de sistemas</b> em diversos projetos de porte nos 
+estados do <b>RJ</b>, <b>SP</b> e <b>MG</b></span><span style="FONT-FAMILY: Verdana">.</span>
+   </p></a></span>
+    </div>
+    <span id="ContentPlaceHolder1_lblSocialShareArticle2"><div id="social-share-article"><span class="st_facebook_hcount" displaytext="Facebook" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span><span class="stMainServices st-facebook-counter" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/facebook_counter.png&quot;);">&nbsp;</span><span class="stArrow"><span class="stButton_gradient stHBubble" style="display: inline-block;"><span class="stBubble_hcount">0</span></span></span></span></span></span><span class="st_twitter_hcount" displaytext="Tweet" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span><span class="stMainServices st-twitter-counter" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/twitter_counter.png&quot;);">&nbsp;</span><span class="stArrow"><span class="stButton_gradient stHBubble" style="display: inline-block;"><span class="stBubble_hcount">48</span></span></span></span></span></span><span class="st_linkedin_hcount" displaytext="LinkedIn" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span><span class="stMainServices st-linkedin-counter" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/linkedin_counter.png&quot;);">&nbsp;</span><span class="stArrow"><span class="stButton_gradient stHBubble" style="display: inline-block;"><span class="stBubble_hcount">0</span></span></span></span></span></span><span class="st_email_hcount" displaytext="Email" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;" class="stButton"><span><span class="stMainServices st-email-counter" style="background-image: url(&quot;https://ws.sharethis.com/images/2017/email_counter.png&quot;);">&nbsp;</span><span class="stArrow"><span class="stButton_gradient stHBubble" style="display: inline-block;"><span class="stBubble_hcount">2</span></span></span></span></span></span><span class="st_plusone_hcount" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" style="margin-left:5px;" st_processed="yes"><div style="display:inline-block;overflow:hidden;line-height:0px;position:relative;vertical-align:middle;bottom:0px;width:75px; height:21px;">&nbsp;<div id="___plusone_1" style="position: absolute; width: 450px; left: -10000px;"><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position:absolute;top:-10000px;width:450px;margin:0px;border-style:none" tabindex="0" vspace="0" width="100%" id="I1_1649535494576" name="I1_1649535494576" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/fastbutton(1).html" data-gapiattached="true"></iframe></div><g:plusone href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx" size="medium" count="true" callback="plusoneCallback" data-gapiscan="true" data-onload="true" data-gapistub="true"></g:plusone></div></span><span class="st_fblike_hcount" st_image="http://www.linhadecodigo.com.br/img/logoLc.png" style="margin-left:-5px;" st_processed="yes"><span style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;position:relative;margin:3px 3px 0;padding:0px;font-size:11px;line-height:0px;vertical-align:bottom;overflow:visible;"><div data-action="" data-send="false" data-layout="button_count" data-show-faces="false" class="fb-like fb_iframe_widget" data-href="http://www.linhadecodigo.com.br/artigo/1120/manipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=&amp;app_id=557561654385120&amp;container_width=0&amp;href=http%3A%2F%2Fwww.linhadecodigo.com.br%2Fartigo%2F1120%2Fmanipulando-o-webconfig-sem-causar-o-restart-da-aplicacao.aspx&amp;layout=button_count&amp;locale=pt_BR&amp;sdk=joey&amp;send=false&amp;show_faces=false"><span style="vertical-align: bottom; width: 130px; height: 28px;"><iframe name="f2e8e775744a21" width="1000px" height="1000px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/like(1).html" style="border: none; visibility: visible; width: 130px; height: 28px;" class=""></iframe></span></div></span></span></div></span>
+
+    <hr class="content-spacer">    
+    <span id="ContentPlaceHolder1_lblArtigosRelacionados"><ul class="news-courses-videos-list" style="width:auto;"><h3>Leia também</h3><li><a href="http://www.linhadecodigo.com.br/artigo/3715/net-fiddle-testando-codigo-net-online.aspx" rel="nofollow">.NET Fiddle: Testando código .NET online</a><span>ASP. NET</span></li><li><a href="http://www.linhadecodigo.com.br/artigo/3712/testando-servicos-web-api-com-postman.aspx" rel="nofollow">Testando serviços Web API com Postman</a><span>ASP. NET</span></li><li><a href="http://www.linhadecodigo.com.br/artigo/3690/sistema-de-enquete-com-aspnet-mvc.aspx" rel="nofollow">Sistema de enquete com ASP.NET MVC</a><span>ASP. NET</span></li><li><a href="http://www.linhadecodigo.com.br/artigo/3688/aspnet-mvc-exibindo-dados-no-formato-mestre-detalhe.aspx" rel="nofollow"> ASP.NET MVC: Exibindo dados no formato mestre-detalhe</a><span>ASP. NET</span></li><li><a href="http://www.linhadecodigo.com.br/artigo/3687/salvando-os-mapas-do-google-com-vfp-9-e-a-classe-gdiplus.aspx" rel="nofollow">Salvando os Mapas do Google com VFP 9 e a Classe GdiPlus</a><span>ASP. NET</span></li></ul></span>
+</div>
+
+				<div class="aside">
+					
+<span style="font-size:10px; font-family:Arial, Verdana; color:#999999;">Publicidade</span><br><div class="sidebar-ads"><span id="WUC_banner_lblBanner"><a target="_blank" href="http://www.devmedia.com.br/"><img src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/banner-devmedia2017.png" alt="DevMedia" style="display: none !important;"></a></span></div>
+					
+					<div class="sidebar-ads" style="border:none;"><span id="WUC_banner_sec_lblBanner_sec" style="margin-top: 25px;display: inline-block;"></span></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+<section class="dm-limitfoot"></section>
+<footer>
+	<section class="container-fluid footer-box dm-cor1">
+		<div class="container ">
+			<div class="row-fluid">
+				<div class="span7 f-box-filho">
+					<div class="row-fluid cx2">
+						<img src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/logolc.png" alt="Linha de Código" title="Linha de Código" width="145" height="32">
+						<nav><a href="http://www.web-03.net/linhadecodigo.asp" target="_blank">Anuncie</a>|<a href="mailto:colabore@linhadecodigo.com.br" target="_blank">Fale Conosco</a>|<a href="http://www.linhadecodigo.com.br/publique.aspx">Publique</a></nav>
+					</div>
+					<ul class="social-bar">
+						<li><a class="icon-1" href="http://www.facebook.com/linhadecodigo" target="_blank"></a></li>
+						<li><a class="icon-3" href="https://twitter.com/linhadecodigo" target="_blank"></a></li>
+						<li><a class="icon-4" href="https://plus.google.com/100240100485097203227?prsrc=3" target="_blank"></a></li>
+						<li><a class="icon-2" href="http://www.linhadecodigo.com.br/feed/"></a></li>
+					</ul>
+				</div>
+				<div class="span5 cx3">
+					<div class="fb-shell">
+						<div class="fb-like-box">
+							<div class="fb-page fb_iframe_widget" data-href="https://www.facebook.com/linhadecodigo" data-width="765" data-height="184" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="false" fb-xfbml-state="rendered" fb-iframe-plugin-query="adapt_container_width=true&amp;app_id=557561654385120&amp;container_width=470&amp;height=184&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Flinhadecodigo&amp;locale=pt_BR&amp;sdk=joey&amp;show_facepile=true&amp;show_posts=false&amp;small_header=true&amp;width=765"><span style="vertical-align: bottom; width: 470px; height: 70px;"><iframe name="f10d88866c0f3e4" width="765px" height="184px" data-testid="fb:page Facebook Social Plugin" title="fb:page Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/page.html" style="border: none; visibility: visible; width: 470px; height: 70px;" class=""></iframe></span></div>
+						</div>
+					</div>
+				</div>				
+			</div>
+		</div>				
+	</section>					
+	<section class="container-fluid dm-cor2 footer-box2">
+		<div class="container ">
+			<div class="row-fluid">
+				<div class="span4 offset4" style="text-align:center">Copyright 2022 - todos os direitos reservados para
+					<a href="http://www.web-03.net/" style="font-weight:bold" target="_blank" rel="nofollow">Web03</a>
+				</div>
+			</div>
+		</div>
+	</section><!-- FIM DESSA CRIANÇA -->
+</footer><!-- FIM BLOCO FOOTER -->
+</div>
+
+<div id="fb-root"></div><iframe name="oauth2relay503732787" id="oauth2relay503732787" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/postmessageRelay.html" tabindex="-1" aria-hidden="true" style="width: 1px; height: 1px; position: absolute; top: -100px;"></iframe><iframe referrerpolicy="unsafe-url" style="position: absolute; overflow: hidden; visibility: hidden; height: 1px; width: 1px; bottom: 1px; left: 1px; display: none !important;" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/lotame-sync.html"></iframe><div id="stcpDiv" style="position: absolute; top: -1999px; left: -1988px;">ShareThis Copy and Paste</div><div id="stwrapper" class="stwrapper stwrapper5x stwrapper5x" style="display: none;"><iframe allowtransparency="true" id="stLframe" class="stLframe" name="stLframe" frameborder="0" scrolling="no" src="./Manipulando o Web.Config Sem Causar o Restart da Aplicação_files/index.html"></iframe></div><div id="stOverlay" onclick="javascript:stWidget.closeWidget();"></div></body></html>

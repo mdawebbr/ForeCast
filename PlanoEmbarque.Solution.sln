@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GREM.API", "GREM.API\GREM.API.csproj", "{1F57CD7C-6657-495D-9CB7-EE5BEBD88F20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanoEmbarque.Entities", "GREM.Entities\PlanoEmbarque.Entities.csproj", "{483E9BCE-6560-444F-A0A3-9D126141D9BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GREM.UI", "GREM.UI\GREM.UI.csproj", "{580FB6CE-EC76-44C9-8A64-8974E32A7843}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GREM.DAL", "GREM.DAL\GREM.DAL.csproj", "{0E785F27-1D10-4E8F-ADB9-EB23C3F8B47B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F57CD7C-6657-495D-9CB7-EE5BEBD88F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F57CD7C-6657-495D-9CB7-EE5BEBD88F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F57CD7C-6657-495D-9CB7-EE5BEBD88F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F57CD7C-6657-495D-9CB7-EE5BEBD88F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{483E9BCE-6560-444F-A0A3-9D126141D9BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{483E9BCE-6560-444F-A0A3-9D126141D9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{483E9BCE-6560-444F-A0A3-9D126141D9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{483E9BCE-6560-444F-A0A3-9D126141D9BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{580FB6CE-EC76-44C9-8A64-8974E32A7843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{580FB6CE-EC76-44C9-8A64-8974E32A7843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{580FB6CE-EC76-44C9-8A64-8974E32A7843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{580FB6CE-EC76-44C9-8A64-8974E32A7843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E785F27-1D10-4E8F-ADB9-EB23C3F8B47B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E785F27-1D10-4E8F-ADB9-EB23C3F8B47B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E785F27-1D10-4E8F-ADB9-EB23C3F8B47B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E785F27-1D10-4E8F-ADB9-EB23C3F8B47B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2205F80-E354-4B1B-8680-3848FCACAEC0}
+	EndGlobalSection
+EndGlobal

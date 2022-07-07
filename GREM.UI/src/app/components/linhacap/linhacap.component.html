@@ -1,0 +1,234 @@
+<div class="container">
+  <mat-card class="mat-elevation-z8">
+    <mat-toolbar color="accent" style="box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
+      <div align="center" style="color:rgb(0, 0, o);text-align: right;">
+        Linha CAP
+      </div>
+    </mat-toolbar>
+    <br><br>
+    <mat-card-content>
+      <form [formGroup]="linhacapForm" (ngSubmit)="onFormSubmit()">
+        <table>
+          <tr>
+
+            <td class="tbl1">
+              <mat-form-field class="demo-full-width">
+                <input formControlName="Linha_CAP" matTooltip="Linha CAP" matInput placeholder="Digite Linha CAP" autocomplete="off">
+              </mat-form-field>
+              <mat-error>
+                <span *ngIf="!linhacapForm.get('Linha_CAP').value && linhacapForm.get('Linha_CAP').touched"></span>
+              </mat-error>
+            </td>
+
+          </tr>
+          <tr>
+            <td class="tbl1">
+              <mat-form-field>
+                <mat-label>Mercado CAP</mat-label>
+                <mat-select (selectionChange)="FillMercadoVFDDL($event)" formControlName="MercadoCAP" matTooltip="Selecione Mercado CAP" autocomplete="off">
+                  <mat-option *ngFor="let MercadoCAP of (allMercadoCAP | async)" [value]="MercadoCAP.MercadoCAPId">
+                    {{MercadoCAP.Mercado_CAP}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td class="tbl1">
+              <mat-form-field>
+                <mat-label>Mercado VF</mat-label>
+                <mat-select (selectionChange)="FillLinhaCAPDDL($event)" formControlName="MercadoVF" matTooltip="Selecione Mercado VF" autocomplete="off">
+                  <mat-option *ngFor="let MercadoVF of (allMercadoVF | async)" [value]="MercadoVF.MercadoVFId">
+                    {{MercadoVF.Mercado_VF}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <!--
+            <td class="tbl1">
+              <mat-form-field>
+                <mat-label>City</mat-label>
+                <mat-select formControlName="City" (selectionChange)="GetSelectedCity($event)" matTooltip="Select City" autocomplete="off">
+                  <mat-option *ngFor="let City of (allCity | async)" [value]="City.Cityid">
+                    {{City.CityName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="tbl1">
+              <mat-form-field class="demo-full-width">
+                <input matTooltip="Enter Address" formControlName="Address" matInput placeholder="Address" autocomplete="off">
+              </mat-form-field>
+              <mat-error>
+                <span *ngIf="!linhacapForm.get('Address').value && linhacapForm.get('Address').touched"></span>
+              </mat-error>
+            </td>
+
+            <td class="tbl1">
+              <mat-form-field class="demo-full-width">
+                <input formControlName="Pincode" matTooltip="Enter Pine Code" matInput placeholder="Pincode" minLength="5" maxLength="6" autocomplete="off">
+              </mat-form-field>
+              <mat-error>
+                <span *ngIf="!linhacapForm.get('Pincode').value && linhacapForm.get('Pincode').touched"></span>
+              </mat-error>
+            </td>
+            -->
+          </tr>
+          <tr>
+            <td class="content-center">
+              <button type="submit" mat-raised-button color="accent" matTooltip="Submit" [disabled]="!linhacapForm.valid">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="reset" mat-raised-button color="accent" matTooltip="Reset" (click)="resetForm()">Reset</button>
+            </td>
+            <td>
+              <p *ngIf="dataSaved" style="color:rgb(0, 128, 0);font-size:20px;font-weight:bold" Class="success" align="left">
+                {{massage}}
+              </p>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <br><br>
+
+        <!--<mat-form-field>
+
+        </mat-form-field>-->
+
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="accent" matTooltip="Delete" (click)="DeleteData()"><mat-icon>delete</mat-icon></button>
+
+        <div>
+
+          <mat-table  [dataSource]="dataSource" matSort class="mat-elevation-z8" style="box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
+
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <mat-header-cell  *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"></mat-checkbox>
+              </mat-header-cell>
+              <mat-cell  *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Linha_CAP">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Linha CAP </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.Linha_CAP}} </mat-cell>
+            </ng-container>
+            <!--
+            <ng-container matColumnDef="LastName">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.LastName}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="DateofBirth">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Date Of Birth </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.DateofBirth | date:'dd-MM-yyyy'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="EmailId">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Email Id </mat-header-cell>
+              <mat-cell   *matCellDef="let linhacap"> {{linhacap.EmailId}}        </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Gender">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.Gender ==0? 'Male' : 'Female'}} </mat-cell>
+            </ng-container>
+            -->
+            <ng-container matColumnDef="MercadoCAP">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Mercado CAP </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.MercadoCAP}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="MercadoVF">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Mercado VF </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.MercadoVF}} </mat-cell>
+            </ng-container>
+            <!--
+            <ng-container matColumnDef="City">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.City}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Address">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.Address}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Pincode">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Pincode </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.Pincode}} </mat-cell>
+            </ng-container>
+            -->
+            <ng-container matColumnDef="Edit">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Editar </mat-header-cell>
+
+              <mat-cell  *matCellDef="let linhacap">
+
+                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadLinhacapToEdit(linhacap.LinhaCAPId)"><mat-icon>edit</mat-icon></button>
+                <!--<button mat-icon-button aria-label="Example icon button with a vertical three dot icon" color="accent" matTooltip="Edit" (click)="loadLinhacapToEdit(linhacap.LinhaCAPId)">
+                  <mat-icon>more_vert</mat-icon>
+                </button>-->
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Delete">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Excluir </mat-header-cell>
+
+              <mat-cell  *matCellDef="let linhacap">
+
+                <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="deleteLinhacap(linhacap.LinhaCAPId)"><mat-icon>delete_forever</mat-icon></button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+
+          <mat-paginator [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
+        </div>
+
+        <!--<table mat-table class="table">
+          <tr color="accent">
+            <th class="tbl2">First Name</th>
+            <th class="tbl2">Last Name</th>
+            <th class="tbl2">Date Of Birth</th>
+            <th class="tbl2">Email Id</th>
+            <th class="tbl2">Gender</th>
+            <th class="tbl2">MercadoCAP</th>
+            <th class="tbl2">MercadoVF</th>
+            <th class="tbl2">City</th>
+            <th class="tbl2">Address</th>
+            <th class="tbl2">Pincode</th>
+            <th class="tbl2">Editar</th>
+            <th class="tbl2">Excluir</th>
+          </tr>
+          <tr *ngFor="let linhacap of allLinhacaps | async">
+            <td class="tbl2">{{linhacap.Linha_CAP}}</td>
+            <td class="tbl2">{{linhacap.LastName}}</td>
+            <td class="tbl2">{{linhacap.DateofBirth | date }}</td>
+            <td class="tbl2">{{linhacap.EmailId}}</td>
+            <td class="tbl2">{{linhacap.Gender ==0? 'Male' : 'Female'}}</td>
+            <td class="tbl2">{{linhacap.MercadoCAP}}</td>
+            <td class="tbl2">{{linhacap.MercadoVF}}</td>
+            <td class="tbl2">{{linhacap.City}}</td>
+            <td class="tbl2">{{linhacap.Address}}</td>
+            <td class="tbl2">{{linhacap.Pincode}}</td>
+            <td class="tbl2">
+              <button type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadLinhacapToEdit(linhacap.LinhaCAPId)">Editar</button>
+            </td>
+            <td class="tbl2">
+              <button type="button" mat-raised-button color="accent" matTooltip="Delete" (click)="deleteLinhacap(linhacap.LinhaCAPId)">Excluir</button>
+            </td>
+          </tr>
+        </table>-->
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

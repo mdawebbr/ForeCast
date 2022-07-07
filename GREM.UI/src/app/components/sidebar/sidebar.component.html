@@ -1,0 +1,129 @@
+<nav>
+      <div class="sidebar-header p-3 text-center">
+          <img src="assets/imgs/logo.png">
+        </div>
+      <div class="sidebar-header p-3 text-center">
+        <small>Olá, seja bem-vindo</small>
+          <!-- <div class="dropdown">
+              <a href="#" class="dropdown-toggle h6 dropdown-color-custom"
+                id="dropdownMenuUsuario" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{Username}}</a>
+                <br>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuUsuario">
+
+                   <a class="dropdown-item" [routerLink]="['/userUpdate']" routerLinkActive="active"><i class="fas fa-pen mr-2"></i> Alterar meus dados</a>
+                  <a class="dropdown-item text-white objectClick"  (click)="Logout()"><i class="fas fa-sign-out-alt mr-2"></i> Sair</a>
+                </div>
+          </div>
+          <div class="badge badge-dark badge-mail">{{usuarioEmail}}</div><br> -->
+          <br>
+          <div class="badge badge-success badge-mail">{{ambiente}}</div>
+      </div>
+      <ul class="list-unstyled components">
+
+          <!-- <li>
+              <a [routerLink]="['/']" routerLinkActive="active"><i class="fas fa-home mr-2"></i> Início</a>
+          </li> -->
+
+          <li>
+            <a [routerLink]="['/cargaForecast']" routerLinkActive="active"><i class="fas fa-chart-line mr-2"></i>Carga de Forecast</a>
+          </li>
+          <!-- <li>
+            <a [routerLink]="['uploadexcell']" routerLinkActive="active"><i class="fas fa-chart-line mr-2"></i>Upload Forecast</a>
+          </li>
+          <li>
+            <a [routerLink]="['uploadexcell2']" routerLinkActive="active"><i class="fas fa-chart-line mr-2"></i>Upload Forecast 2</a>
+          </li> -->
+          <li> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+            <a [routerLink]="['cliente']"><i class="fa fa-address-book mr-2" aria-hidden="true"></i>Cliente</a>
+          </li>
+          <li> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+            <a [routerLink]="['pronostico']"><i class="fa fa-address-book mr-2" aria-hidden="true"></i>Pronostico SKU</a>
+          </li>
+          <li> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+            <a [routerLink]="['linhacap']"><i class="fa fa-address-book mr-2" aria-hidden="true"></i>Linha CAP</a>
+          </li>
+          <li> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+            <a [routerLink]="['mercadocap']"><i class="fa fa-address-book mr-2" aria-hidden="true"></i>Mercado CAP</a>
+          </li>
+          <li> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+            <a [routerLink]="['mercadovf']"><i class="fa fa-address-book mr-2" aria-hidden="true"></i>Mercado VF</a>
+          </li>
+          <li> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+            <a [routerLink]="['parameters/configuracoesGerais']"><i class="fas fa-cogs mr-2"></i>Configurações Gerais</a>
+          </li>
+          <li> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+            <a [routerLink]="['ngmultselect']"><i class="fas fa-cogs mr-2"></i>Selecionar Meses</a>
+          </li>
+          <li> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+            <a [routerLink]="['cadastrousuario']"><i class="fas fa-cogs mr-2"></i>Cadastro Usuário</a>
+          </li>
+          <!-- <li>
+              <a href="#parameters" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog mr-2"></i> Parâmetros</a>
+              <ul class="collapse list-unstyled" id="parameters">
+                  <li>
+                      <a href="#"><i class="fas fa-users mr-3"></i>Perfis de Acesso</a>
+                  </li>
+              </ul>
+          </li> -->
+          <li *ngIf="operations.includes('OPER_REALIZAR_AGENDAMENTO')">
+              <a [routerLink]="['/agendamento']" routerLinkActive="active"><i class="fas fa-check-square mr-2"></i> Agendamentos</a>
+          </li>
+          <!-- <li>
+            <a [routerLink]="['/parameters']" routerLinkActive="active"><i class="fas fa-cogs mr-2"></i> Parâmetros</a>
+        </li> -->
+        <li *ngIf="operations.includes('OPER_MENU_PARAMETROS')">
+          <a href="#parameters" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cogs mr-2"></i>Parâmetros</a>
+          <ul class="collapse list-unstyled" id="parameters">
+              <li *ngIf="operations.includes('OPER_CONFIG_GERAL')"> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+                <a href="#" [routerLink]="['parameters/configuracoesGerais']"><i class="fas fa-cogs mr-2"></i>Configurações Gerais</a>
+              </li>
+              <li *ngIf="operations.includes('OPER_CONFIG_SHARE')"> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+                <a href="#" [routerLink]="['/shareconfig']"><i class="fas fa-cogs mr-2"></i> Configurações de Share</a>
+              </li>
+              <li *ngIf="operations.includes('OPER_CONFIG_AGENDA')"> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+                <a href="#" [routerLink]="['parameters/configuracoesAgenda']"><i class="fas fa-cogs mr-2"></i>Configurações de Agenda</a>
+              </li>
+              <li *ngIf="operations.includes('OPER_CONFIG_BLOQUEIO_AGENDA')"> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+                <a href="#" [routerLink]="['parameters/configuracoesBloqueioAgenda']"><i class="fas fa-cogs mr-2"></i>Configurações de Bloqueio Gerencial de Agenda</a>
+              </li>
+              <li *ngIf="operations.includes('OPER_CONFIG_COR_DASHBOARD')"> <!--*ngIf="operations.includes('OPER_AGEND_LISTAR_PC')"-->
+                <a href="#" [routerLink]="['parameters/configuracaoCor']"><i class="fas fa-cogs mr-2"></i>Configurações de Cor do Dashboard</a>
+              </li>
+          </ul>
+      </li>
+        <li *ngIf="operations.includes('OPER_MENU_ROTAS')">
+          <a [routerLink]="['/rotas']" routerLinkActive="active"><i class="fas fa-route mr-2"></i> Rotas</a>
+        </li>
+        <li *ngIf="operations.includes('OPER_MENU_CONDUTORES')">
+          <a [routerLink]="['/drivers']"  routerLinkActive="active"><i class="fas fa-car mr-2"></i> Condutores</a>
+        </li>
+        <li *ngIf="operations.includes('OPER_MENU_PC')">
+              <a href="#controlpoint" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-hand-paper mr-2"></i> Pontos de Controle</a>
+              <ul class="collapse list-unstyled" id="controlpoint">
+                  <li *ngIf="operations.includes('OPER_VIEW_PC')">
+                    <a href="#" [routerLink]="['pontocontrole']"><i class="fas fa-hand-paper mr-3"></i> Pontos de Controle</a>
+                  </li>
+                  <li *ngIf="operations.includes('OPER_VIEW_PERIFERICOS_PC')">
+                      <a href="#" [routerLink]="['pontocontroleperiferico']"><i class="fas fa-chalkboard-teacher mr-3"></i>Periféricos</a>
+                  </li>
+                  <li *ngIf="operations.includes('OPER_VIEW_TIPOS_PC')">
+                    <a href="#" [routerLink]="['tipopontocontrole']"><i class="fas fa-filter mr-3"></i>Tipos de Ponto de Controle</a>
+                  </li>
+              </ul>
+          </li>
+          <li *ngIf="operations.includes('OPER_MENU_PERIFERICOS')">
+            <a href="#peripheral" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-headset mr-2"></i> Periféricos</a>
+            <ul class="collapse list-unstyled" id="peripheral">
+                <li *ngIf="operations.includes('OPER_VIEW_PERIFERICOS')">
+                  <a href="#" [routerLink]="['perifericos']"><i class="fas fa-headset mr-3"></i> Periféricos</a>
+                </li>
+                <li *ngIf="operations.includes('OPER_VIEW_TIPO_PERIFERICOS')">
+                  <a href="#" [routerLink]="['tipoperiferico']"><i class="fas fa-dice-d6 mr-3"></i> Tipos de Periféricos</a>
+                </li>
+            </ul>
+        </li>
+        <li *ngIf="operations.includes('OPER_DASHBOARD_PROCESSO_RECEBIMENTO')">
+          <a [routerLink]="['/relatorio', 'recebimento']" routerLinkActive="active"><i class="fas fa-chart-line mr-3"></i>Dashboard Processo de Recebimento</a>
+        </li>
+      </ul>
+  </nav>

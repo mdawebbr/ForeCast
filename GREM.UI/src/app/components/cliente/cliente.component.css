@@ -1,0 +1,51 @@
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 490px;
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+.input-full-width {
+  width:800px;
+}
+
+.demo {
+  border:0px solid #C0C0C0;
+  border-collapse:collapse;
+  padding:5px;
+}
+.demo th {
+  border:0px solid #C0C0C0;
+  padding:5px;
+  background:#F0F0F0;
+}
+.demo td {
+  border:0px solid #C0C0C0;
+  padding:5px;
+}
+

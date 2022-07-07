@@ -1,0 +1,1 @@
+ng build --aot=false --buildOptimizer=false --optimization=false

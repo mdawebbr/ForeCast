@@ -1,0 +1,128 @@
+<div class="container">
+  <mat-card class="mat-elevation-z8">
+    <mat-toolbar color="accent" style="box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
+      <div align="center" style="color:rgb(0, 0, o);text-align: right;">
+        Cadastro Usuários Fore Cast
+      </div>
+    </mat-toolbar>
+    <br><br>
+    <mat-card-content>
+      <form [formGroup]="cadastrouserForm" (ngSubmit)="onFormSubmit()">
+        <table>
+          <tr>
+
+            <td class="tbl1">
+              <mat-form-field class="demo-full-width">
+                <input formControlName="Linha_CAP" matTooltip="Linha CAP" matInput placeholder="Digite Linha CAP" autocomplete="off">
+              </mat-form-field>
+              <mat-error>
+                <span *ngIf="!cadastrouserForm.get('Linha_CAP').value && cadastrouserForm.get('Linha_CAP').touched"></span>
+              </mat-error>
+            </td>
+
+          </tr>
+          <tr>
+            <td class="tbl1">
+              <mat-form-field>
+                <mat-label>Mercado CAP</mat-label>
+                <mat-select (selectionChange)="FillMercadoVFDDL($event)" formControlName="MercadoCAP" matTooltip="Selecione Mercado CAP" autocomplete="off">
+                  <mat-option *ngFor="let MercadoCAP of (allMercadoCAP | async)" [value]="MercadoCAP.MercadoCAPId">
+                    {{MercadoCAP.Mercado_CAP}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td class="tbl1">
+              <mat-form-field>
+                <mat-label>Mercado VF</mat-label>
+                <mat-select (selectionChange)="FillLinhaCAPDDL($event)" formControlName="MercadoVF" matTooltip="Selecione Mercado VF" autocomplete="off">
+                  <mat-option *ngFor="let MercadoVF of (allMercadoVF | async)" [value]="MercadoVF.MercadoVFId">
+                    {{MercadoVF.Mercado_VF}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td class="content-center">
+              <button type="submit" mat-raised-button color="accent" matTooltip="Submit" [disabled]="!cadastrouserForm.valid">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="reset" mat-raised-button color="accent" matTooltip="Reset" (click)="resetForm()">Reset</button>
+            </td>
+            <td>
+              <p *ngIf="dataSaved" style="color:rgb(0, 128, 0);font-size:20px;font-weight:bold" Class="success" align="left">
+                {{massage}}
+              </p>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <br><br>
+
+        <!--<mat-form-field>
+
+        </mat-form-field>-->
+
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="accent" matTooltip="Delete" (click)="DeleteData()"><mat-icon>delete</mat-icon></button>
+
+        <div>
+
+          <mat-table  [dataSource]="dataSource" matSort class="mat-elevation-z8" style="box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
+
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <mat-header-cell  *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"></mat-checkbox>
+              </mat-header-cell>
+              <mat-cell  *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"></mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Linha_CAP">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Linha CAP </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.Linha_CAP}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="MercadoCAP">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Mercado CAP </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.MercadoCAP}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="MercadoVF">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Mercado VF </mat-header-cell>
+              <mat-cell  *matCellDef="let linhacap"> {{linhacap.MercadoVF}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Edit">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Editar </mat-header-cell>
+
+              <mat-cell  *matCellDef="let linhacap">
+                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadLinhacapToEdit(linhacap.LinhaCAPId)"><mat-icon>edit</mat-icon></button>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Delete">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Excluir </mat-header-cell>
+
+              <mat-cell  *matCellDef="let linhacap">
+
+                <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="deleteLinhacap(linhacap.LinhaCAPId)"><mat-icon>delete_forever</mat-icon></button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+
+          <mat-paginator [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

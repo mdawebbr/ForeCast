@@ -1,0 +1,312 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+body {
+  font-size: 1.7vh !important;
+  /* font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"; */
+  font-family: "Montserrat";
+  background-color: #F4F6F9;
+}
+
+.required::after {
+  content: " *";
+  color: red;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+  border: none;
+}
+
+#sidebar {
+  min-width: 200px;
+  max-width: 200px;
+}
+
+#sidebar.active {
+  margin-left: -200px;
+}
+
+#sidebar {
+  min-width: 200px;
+  max-width: 200px;
+  min-height: 100vh;
+}
+
+a[data-toggle="collapse"] {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+      margin-left: -200px;
+  }
+  #sidebar.active {
+      margin-left: 0;
+  }
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  line-height: 1.7em;
+  color: #999;
+}
+
+a, a:hover, a:focus {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#sidebar {
+  /* background: #3d3d3d; */
+  background-image: linear-gradient(rgba(0,0,0,0.86), rgba(0,0,0,0.86)), url('../imgs/bg.jpg');;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-attachment: fixed;
+  transition: all 0.3s;
+}
+
+.container-fluid, .container {
+  font-size: 1.8vh;
+}
+
+#sidebar::before {
+  background: rgba(0,0,0,0.7);
+}
+
+.bg-op1 {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+#sidebar ul.components {
+  padding: 20px 0;
+}
+
+#sidebar ul p {
+  color: #fff;
+  padding: 10px;
+}
+
+#sidebar ul li a {
+  padding: 10px;
+  display: block;
+  margin-left: 1.2vh;
+  margin-right: 1.2vh;
+}
+#sidebar ul li a:hover {
+  color: #FFF;
+  background: rgba(66, 66, 66, 0.6);
+  border-radius: 0.4vh;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+  color: #fff;
+  background: rgba(75, 75, 75, 0.5);
+  border-radius: 0.4vh;
+}
+ul ul a {
+  font-size: 0.9em !important;
+  padding-left: 30px !important;
+  background: rgba(64, 64, 64, 0.5);
+}
+
+.hr-custom {
+  margin: 1vh;
+}
+
+.size-bars-1 {
+  font-size: 2vh;
+  cursor: pointer;
+}
+
+.inner {
+  padding-left: 60px;
+}
+
+.b1-row {
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.breadcrumb {
+  background-color: transparent;
+}
+
+.card-header {
+  background-color: #FFF;
+  border-left: 3px solid #3d3d3d;
+  border-bottom: 0px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #5e5e5e;
+  padding: 0px;
+  padding-left: 3vh;
+  display: block;
+  border-radius: 0px !important;
+}
+
+.card {
+  border-radius: 0px;
+  border: none;
+  padding-top: 2vh;
+}
+
+.btn {
+  border-radius: 0px;
+  border: none;
+}
+
+.btn-sm {
+  font-size: 1.7vh;
+}
+
+.dropdown-item {
+  font-size: 1.9vh;
+  color: #FFF;
+}
+
+.dropdown-item:hover {
+  font-size: 1.9vh;
+  background-color: #5e5e5e;
+  color: #FFF;
+}
+
+.dropdown-menu {
+  background-color: rgba(61, 61, 61, 0.75);
+  border-radius: 5px 0px 5px;
+}
+
+#sidebar ul li.active > a {
+  color: #fff;
+  background: rgba(75, 75, 75, 0.5);
+  border-radius: 0.4vh;
+}
+
+.dropdown-color-custom {
+  color: #fff !important;
+  background: transparent !important;
+  border-radius: 0.4vh !important;
+}
+
+.pagination, .page-link, .page-item, .page-item:hover, .page-link:hover {
+  border-radius: 0px !important;
+  color: #3d3d3d;
+}
+
+.page-link .active {
+  background-color: blue;
+}
+
+.pesquisa, .form-custom, .form-control {
+  font-size: 1.7vh !important;
+}
+
+#video {
+  width: 100vh !important;
+  height: 100vh !important;
+}
+
+.required::after {
+  content: "*" !important;
+  color: red !important;
+}
+
+.list-group {
+  max-height: 120px;
+  margin-bottom: 10px;
+  overflow:scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.list-group-item {
+  border-radius: 0px !important;
+  padding: 1.2vh; 
+  text-align: center;
+}
+
+.card-dark {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #FFF;
+}
+
+.card-header-dark {
+  background-color: rgba(0, 0, 0, 0.0);
+  color: #FFF;
+  border-left: 3px solid #FFF;
+}
+
+.f-size-100 {
+  font-size: 100% !important;
+}
+
+.badge-mercosul {
+  background-color: #FFF;
+  color: #000000;
+  -webkit-box-shadow: 0px -5px 0px 0px rgba(0, 23, 98, 0.75);
+  -moz-box-shadow: 0px -5px 0px 0px rgba(0, 23, 98, 0.75);
+  box-shadow: 0px -5px 0px 0px rgba(0, 23, 98, 0.75);
+  font-weight: normal;
+  border: 1px solid rgba(0, 23, 98, 0.75);
+}
+
+.badge {
+  font-size: 80% !important;
+}
+
+.success-flat {
+  background-color: #daffd9 !important;
+}
+
+.danger-flat {
+  background-color:#ffd9da !important;
+}
+
+.invoice-valid {
+  border: 1px solid #daffd9 !important;
+  transition: border 2s; /* Safari prior 6.1 */
+}
+
+.invoice-invalid {
+  border: 1px solid #ffd9da !important;
+  transition: border 2s; /* Safari prior 6.1 */
+}
+
+.bg-supplier {
+  background-image: url("https://www.mazettoseguros.com.br/blog/wp-content/uploads/2016/12/seguro-de-fabrica-corretora-de-seguros.jpg") !important;
+  background-position: center;
+}
+
+.login-body {
+  background-color:#000;
+  background-image: url('../../assets/imgs/bg-op-3.png') !important;
+  background-attachment: fixed;
+  background-size: cover;
+}

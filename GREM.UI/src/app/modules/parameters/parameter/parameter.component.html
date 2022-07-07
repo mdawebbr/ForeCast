@@ -1,0 +1,49 @@
+<div class="col-md-12">
+    <div class="container-fluid mt-4">
+      <h1>Definição de Parâmetros</h1>
+      <small>Parâmetros da Aplicação</small>
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mt-3 p-0">
+            <li class="breadcrumb-item active" aria-current="page">Início</li>
+          </ol>
+        </nav>
+        <hr/>
+    </div>
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header">
+          <a>Parâmetros da Aplicação</a>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4 border m-2 p-3">
+                <a (click)="setTelaAtual('agendamento')" class="objectClick"><i class="fas fa-cogs"></i> Configurações do Agendamento</a>
+            </div>
+            <div class="col-sm-4 border m-2 p-3">
+                <a (click)="setTelaAtual('rescheduling')" class="objectClick"><i class="fas fa-cogs"></i> Configurações do Reagendamento</a>
+            </div>
+            <div class="col-sm-4 border m-2 p-3">
+                <a (click)="setTelaAtual('egrparameter')" class="objectClick"><i class="fas fa-cogs"></i> Configurações do EGR</a>
+            </div>
+            <div class="col-sm-4 border m-2 p-3">
+              <a (click)="setTelaAtual('timeoutparameter')" class="objectClick"><i class="fas fa-cogs"></i> Configurações de Timeout</a>
+            </div>
+            <div class="col-sm-4 border m-2 p-3">
+              <a (click)="setTelaAtual('businesshour')" class="objectClick"><i class="fas fa-cogs"></i> Configurações de Horário Comercial</a>
+            </div>
+            <div class="col-sm-4 border m-2 p-3">
+              <a (click)="setTelaAtual('LimiteCaminhao')" class="objectClick"><i class="fas fa-cogs"></i> Configuração de Limite de Caminhões/dia</a>
+            </div>
+            <div class="col-sm-4 border m-2 p-3">
+              <a (click)="setTelaAtual('LimiteNavio')" class="objectClick"><i class="fas fa-cogs"></i> Configuração de Limite de Navios/dia</a>
+            </div>
+            <div class="col-sm-4 border m-2 p-3">
+              <a (click)="setTelaAtual('LimiteTrem')" class="objectClick"><i class="fas fa-cogs"></i> Configuração de Limite de Trens/dia</a>
+            </div>
+          </div>  
+          <hr />
+          
+        </div>
+      </div>
+    </div>
+  </div>

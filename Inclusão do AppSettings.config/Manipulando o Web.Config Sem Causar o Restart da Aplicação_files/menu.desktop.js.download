@@ -1,0 +1,37 @@
+﻿$(function(){
+$("#headermenudesktop").append("<ul class=\"navspace menucel ativo2 dm-2\">\
+<li><a href=\"#\" rel=\"nofollow\" class=\"menulink\">Desenvolvimento &nbsp;<small>&#9660;</small></a>\
+<ul class=\"submenu\">\
+<li><a href=\"http://www.linhadecodigo.com.br/php.aspx\">PHP</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/cms.aspx\">CMS</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/python.aspx\">Python</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/java.aspx\">Java</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/aspnet.aspx\">.net</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/bancodedados.aspx\">Banco de dados</a></li>\
+<a href=\"http://www.linhadecodigo.com.br/todosartigos.aspx\" class=\"btn-dm-nav\">Todos</a>\
+</ul>\
+</li>\
+</ul>\
+<ul class=\"navspace menucel ativo3 dm-2\">\
+<li><a href=\"#\" rel=\"nofollow\" class=\"menulink\">Front-end &nbsp;<small>&#9660;</small></a>\
+<ul class=\"submenu\">\
+<li><a href=\"http://www.linhadecodigo.com.br/html.aspx\">HTML</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/css.aspx\">CSS</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/javascript.aspx\">Javascript</a></li>\
+</ul>\
+</li>\
+</ul>\
+<ul class=\"menucel dm-2\"><li><a href=\"http://www.linhadecodigo.com.br/bancodedados.aspx\" class=\"menulink2\">Banco de dados</a></li></ul>\
+<ul class=\"navspace menucel ativo2 dm-4\">\
+<li><a href=\"#\" rel=\"nofollow\" class=\"menulink\">Em destaque &nbsp;<small>&#9660;</small></a>\
+<ul class=\"submenu\">\
+<li><a href=\"http://www.linhadecodigo.com.br/artigo/3593/alert-em-javascript.aspx\">Alert em Javascript</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/artigo/3604/calendario-em-jquery-criando-calendarios-com-datepicker.aspx\">Crie calendários usando o Datepicker do Jquery</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/artigo/3474/menu-em-css-menu-dropdown-horizontal-com-html5-e-css3.aspx\">Como criar um menu em CSS</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/artigo/3602/crop-jquery-recortando-imagens-com-jcrop.aspx\">Faça crop em imagens com Jquery</a></li>\
+<li><a href=\"http://www.linhadecodigo.com.br/artigo/3600/botao-com-css-3-como-criar-um-botao-sem-imagens.aspx\">Como criar botões com CSS3</a></li>\
+</ul>\
+</li>\
+</ul>\
+<ul class=\"menucel dm-4\"><li><a href=\"http://www.linhadecodigo.com.br/publique.aspx\" class=\"menulink2\">Publique</a></li></ul>");
+});

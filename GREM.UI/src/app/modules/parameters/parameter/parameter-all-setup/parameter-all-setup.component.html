@@ -1,0 +1,43 @@
+
+<div class="container-fluid">
+   
+      <div class="card" style="margin-top:2%">
+        <div class="card-header">
+          <a>Limite de Caminhões/dia</a>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Configure o limite de Caminhões por dia.</label>
+            <input [value]="caminhaoParam.Valor" #caminhao type="text" class="form-control form-control-sm" />
+          </div>
+          <button (click)="updateCaminhao(caminhao.value)" class="btn btn-success btn-sm">Salvar</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:2%">
+        <div class="card-header">
+          <a>Limite de Navios/dia</a>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Configure o limite de Navios por dia.</label>
+            <input [value]="navioParam.Valor" #navio type="text" class="form-control form-control-sm" />
+          </div>
+          <button (click)="updateNavio(navio.value)" class="btn btn-success btn-sm">Salvar</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:2%">
+        <div class="card-header">
+          <a>Limite de Trens/dia</a>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Configure o limite de Trens por dia.</label>
+            <input [value]="tremParam.Valor" #trem type="text" class="form-control form-control-sm" />
+          </div>
+          <button (click)="updateTrem(trem.value)" class="btn btn-success btn-sm">Salvar</button>
+        </div>
+      </div>
+
+</div>

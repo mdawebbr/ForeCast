@@ -1,0 +1,114 @@
+<ngx-spinner></ngx-spinner>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<!-- <div *ngIf="doLogin; else logado">
+  <app-autenticacao></app-autenticacao>
+</div> -->
+
+<!-- <div *ngIf="(doLogin && !teste) || (doLogin && teste) || trocaSenha; else logado">
+  <div *ngIf="!teste && !trocaSenha">
+    <app-autenticacao></app-autenticacao>
+  </div>
+  <div *ngIf="trocaSenha">
+    <div class="wrapper">
+      <app-sidebar-autocad id="sidebar"></app-sidebar-autocad>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 bg-light b1-row">
+            <div class="row">
+              <div class="col-sm-3">
+                  <h5 id="sidebarCollapse" class="fas fa-bars size-bars-1 p-0 p-2 pt-3">
+                    <i class=""></i>
+                  </h5>
+              </div>
+            </div>
+          </div>
+          <div class="w-100">
+            <router-outlet class="mb-5">
+            </router-outlet>
+
+          </div>
+        </div>
+      </div>
+
+      <script src="https://kit.fontawesome.com/b52535ba45.js"></script>
+      <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+      </script>
+    </div>
+
+
+  </div>
+  <div *ngIf="teste">
+    <div class="wrapper">
+      <app-sidebar-autocad id="sidebar"></app-sidebar-autocad>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 bg-light b1-row">
+            <div class="row">
+              <div class="col-sm-3">
+                  <h5 id="sidebarCollapse" class="fas fa-bars size-bars-1 p-0 p-2 pt-3">
+                    <i class=""></i>
+                  </h5>
+              </div>
+            </div>
+          </div>
+          <div class="w-100">
+            <app-user-register></app-user-register>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://kit.fontawesome.com/b52535ba45.js"></script>
+      <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+      </script>
+    </div>
+  </div>
+</div> -->
+
+<!-- *ngIf="!doLogin && !teste" -->
+
+<!-- <ng-template #logado> -->
+  <div>
+    <!-- <div *ngIf="isDisconnected" class="alert alert-danger w-100 rounded-0 m-0">Você foi desconectado por inatividade. <a href="#" (click)="GoLogin()">Clique aqui para autenticar novamente.</a></div> -->
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <app-sidebar id="sidebar"></app-sidebar>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 bg-light b1-row">
+            <div class="row">
+              <div class="col-sm-3">
+                  <h5 id="sidebarCollapse" class="fas fa-bars size-bars-1 p-0 p-2 pt-3">
+                    <i class=""></i>
+                  </h5>
+              </div>
+            </div>
+          </div>
+          <div class="w-100">
+            <router-outlet class="mb-5"></router-outlet>
+          </div>
+      </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/b52535ba45.js"></script>
+    <script>
+
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+  </div>
+  </div>
+
+<!-- </ng-template> -->
+
+
+
+
+

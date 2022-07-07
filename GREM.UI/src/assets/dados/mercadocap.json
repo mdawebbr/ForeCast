@@ -1,0 +1,37 @@
+[
+{
+	"id": "1",
+	"nome": "MI",
+	"estado": "8"
+},
+{
+	"id": "3",
+	"nome": "Ovc",
+	"estado": "8"
+},
+{
+	"id": "2",
+	"nome": "EX",
+	"estado": "8"
+},
+{
+	"id": "5",
+	"nome": "C01",
+	"estado": "8"
+},
+{
+	"id": "6",
+	"nome": "C02",
+	"estado": "8"
+},
+{
+	"id": "7",
+	"nome": "C03",
+	"estado": "8"
+},
+{
+	"id": "8",
+	"nome": "C04",
+	"estado": "8"
+}
+]

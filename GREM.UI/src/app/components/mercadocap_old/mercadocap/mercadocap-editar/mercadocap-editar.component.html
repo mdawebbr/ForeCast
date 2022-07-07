@@ -1,0 +1,36 @@
+<div class="col-md-12 mb-5">
+    <div class="container-fluid mt-4">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mt-3 p-0">
+            <li class="breadcrumb-item"><a [routerLink]="['/']" routerLinkActive="router-link-active" >Início</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/drivers']" routerLinkActive="router-link-active" >Mercado CAP</a></li>
+            <li class="breadcrumb-item active" *ngIf="mercadocapSelecionado?.Id" aria-current="page">Editar</li>
+            <li class="breadcrumb-item active" *ngIf="!mercadocapSelecionado?.Id" aria-current="page">Criar</li>
+          </ol>
+        </nav>
+        <hr/>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Mercado CAP</div>
+                <div class="card-body">
+                    <form [formGroup]="formGroup">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                              <label class="required">Mercado CAP</label>
+                              <input formControlName='Mercado_CAP' type="text" class="form-control form-control sm"/>
+                          </div>
+                        </div>
+                        <div class="row mb-2">
+                        </div>
+                        <button *ngIf="mercadocapSelecionado?.MercadoCAPId"  (click)="update()"  class="btn btn-sm btn-success float-right mr-1">Atualizar</button>
+                        <button *ngIf="!mercadocapSelecionado?.MercadoCAPId" (click)="saveNew()" class="btn btn-sm btn-success float-right mr-1">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<div class="col-md-12 mb-5">
+  <div class="container-fluid mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3 p-0">
+          <li class="breadcrumb-item"><a>Início</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Mercado VF</li>
+        </ol>
+      </nav>
+      <hr/>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 mb-3">
+        <div class="float-right">
+          <a [routerLink]="[0, 'editarMercadovf']" class="btn btn-sm btn-info"><i class="fas fa-plus-square"></i> Novo</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <a>Mercado VF cadastrados</a>
+      </div>
+      <div class="card-body">
+          <div class="col-sm-12 mt-3">
+              <table class="mb-3">
+                <tr>
+                  <td>
+                    <div class="input-group">
+                      <input #buscarapida type="text" class="form-control form-control-sm" placeholder="Busca Rápida..." aria-label="Busca Rápida..." aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <button (click)="applyFilter(buscarapida)" class="btn btn-sm btn-primary" type="button"><i class="fas fa-search"></i></button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <div *ngIf="rows == null" class="alert alert-danger">Os registros estão carregando... Aguarde, por favor!</div>
+                <div class="mat-elevation-z8" >
+                  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                  <table mat-table [dataSource]="rows" matSort>
+
+                    <ng-container matColumnDef="mercadovfid">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  style="width: 10%;">Mercado VF ID</th>
+                      <td mat-cell *matCellDef="let item"> {{item.mercadovfid}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mercadovf">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  style="width: 10%;">Mercado VF</th>
+                      <td mat-cell *matCellDef="let item"> {{item.mercadovf}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mercadocapid">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  style="width: 10%;">Mercado CAP ID</th>
+                      <td mat-cell *matCellDef="let item"> {{item.mercadocapid}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mercadocap">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  style="width: 10%;">Mercado CAP</th>
+                      <td mat-cell *matCellDef="let item"> {{item.mercadocap}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef   style="width: 20%; text-align: right;">Ações</th>
+                      <td mat-cell *matCellDef="let item" style="text-align: right;">
+                        <button class="btn btn-sm btn-warning mr-1" [routerLink]="[item.mercadovfid, 'editarMercadovf']"><i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp;Editar</button>
+                        <button class="btn btn-sm btn-danger mr-1" (click)="Excluir(item.mercadovfid)"> <i class="fa fa-trash" aria-hidden="true"></i> &nbsp;Remover</button>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                  </table>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,70 @@
+@import url(https://fonts.googleapis.com/css?family=Dosis:500);
+
+.container{
+  min-width: 100%;
+  
+}
+
+.timeline{
+  counter-reset: year 2016;
+  position: relative;
+}
+
+.timeline li{
+  list-style: none;
+  float: left;
+  width: 10%;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Dosis', sans-serif;
+}
+
+ul:nth-child(1){
+  color: #4caf50;
+}
+
+.timeline li:before{
+  content: "√"!important;
+  font-weight: bold!important;
+  font-size: 2vh!important;
+  width: 50px!important;
+  height: 50px!important;
+  border: 3px solid #4caf50 !important;
+  border-radius: 50%!important;
+  display: block!important;
+  text-align: center!important;
+  line-height: 50px!important;
+  margin: 0 auto 10px auto!important;
+  background: #F1F1F1!important;
+  color: #000!important;
+  transition: all ease-in-out .3s!important;
+  cursor: pointer!important;
+}
+
+.timeline li:after{
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background-color: grey;
+  top: 25px;
+  left: -50%;
+  z-index: -999;
+  transition: all ease-in-out .3s;
+}
+
+.timeline li:first-child:after{
+  content: none;
+}
+.timeline li.active{
+  color: #555555;
+}
+.timeline li.active:before{
+  background: #4caf50 !important;
+  color: #F1F1F1 !important;
+}
+
+.timeline li.active + li:after{
+  background: #4caf50 !important;
+}

@@ -1,0 +1,17 @@
+comandos Angular
+ng build --configuration=dev
+ng build --configuration=production
+
+
+ng build --configuration=dev
+Angular.json
+"baseHref": "/webstart/",
+"deployUrl": "/webstart/",
+
+trocar para sql do servidor
+return ConfigurationManager.ConnectionStrings["Dapper"].ConnectionString;
+return ConfigurationManager.ConnectionStrings["Dapperlocal"].ConnectionString;
+
+Renomerar web.config
+
+Tentar esse comando se o deploy falhar

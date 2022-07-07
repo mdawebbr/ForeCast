@@ -1,0 +1,12 @@
+.box {
+    border: 1px solid #CCC;
+    min-height: 100px;
+    padding: 10px;
+}
+
+.example-box {
+    padding: 5px;
+    border: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    cursor: move;
+  }

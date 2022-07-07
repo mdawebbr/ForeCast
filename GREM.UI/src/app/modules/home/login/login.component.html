@@ -1,0 +1,62 @@
+<div class="col-md-12 mb-5">
+    <div class="container-fluid mt-4">
+      <h1>Registre-se!</h1>
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mt-3 p-0">
+            <li class="breadcrumb-item"><a href="#">Início</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Registre-se</li>
+          </ol>
+        </nav>
+        <hr/>
+    </div>
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header">
+          <a>Preencha com seus dados!</a>
+        </div>
+        <div class="card-body">
+          <label>Defina o tipo de cadastro...</label>
+          <div class="row">
+            <a class="col-sm-6 mb-2">
+              <div class="card-body bg-light rounded text-center border border-success" id="fornecedor">
+                Fornecedor
+              </div>
+            </a>
+            <a class="col-sm-6 mb-2">
+              <div class="card-body bg-light rounded text-center tts" id="transportador">
+                Transportador
+              </div>
+            </a>
+          </div>
+          <hr/>
+          <form [formGroup]="registerForm" (ngSubmit)="SubmitTest()">
+            <div class="form-group">
+                <label>CNPJ do <a id="tipoCadastro">Fornecedor</a></label>
+                <input (blur)="ConsultaCnpj()" type="text" formControlName="CnpjEmpresa" class="form-control pl-1 rounded-0 w-50 txtcnpj" />
+                <small>{{tituloEmpresa}}</small>
+                </div>
+                <hr/>
+                <h5 class="mb-4">Informações do Usuário...</h5>
+                <div class="form-group">
+                <label>Nome Completo</label>
+                <input type="text" formControlName="Nome" class="form-control pl-1 rounded-0 w-50" />
+                </div>
+                <div class="form-group">
+                <label>Seu Email</label>
+                <input type="text" formControlName="Email" class="form-control pl-1 rounded-0 w-50" />
+                </div>
+                <div class="form-group">
+                <label>Telefone</label>
+                <input type="text" formControlName="Telefone" class="form-control pl-1 rounded-0 w-50" />
+                </div>
+                <div class="form-group">
+                <label>CPF</label>
+                <input type="text" formControlName="CPF" class="form-control pl-1 rounded-0 w-50" />
+                <small>Você irá utilizar este CPF para autenticar-se!</small>
+                </div>
+                <input type="submit" class="btn btn-success rounded-0 btn-sm" value="Cadastrar">
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>

@@ -1,0 +1,272 @@
+<div class="col-md-8 mb-5">
+  <div class="container-fluid mt-4">
+    <h1>Pronósticos SKU</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3 p-0">
+          <li class="breadcrumb-item"><a [routerLink]="['/']" routerLinkActive="router-link-active" >Início</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Pronosticos</li>
+        </ol>
+      </nav>
+      <hr/>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-10 mb-3">
+        <div class="float-left">
+          <!-- <button class="btn btn-sm btn-light" [routerLink]="['/']"><i class="fas fa-undo-alt"></i> Voltar</button> -->
+          <!-- <a (click)="downloadCSV()" style="color:white" class="btn btn-sm btn-info objectClick"> -->
+          <!-- <i class="fa fa-file-excel-o objectClick" style="color:black" (click)="downloadCSV()"></i> &nbsp; -->
+          <div class="float-right">
+            <a (click)="CalcularForecast()" style="color:white" class="btn btn-sm btn-dark objectClick"> Calcular Forecast </a>&nbsp;
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <input type="number" class="form-control" placeholder="Ano AAAA" id="ano" name="ano"  [(ngModel)]="ano" />
+              </div>
+              <div class="col">
+                <input type="number" class="form-control" placeholder="Mês MM" id="mes" name="mes"  [(ngModel)]="mes" />
+              </div>
+              <div class="col">
+                <input type="number" class="form-control" placeholder="Qtd.Meses" id="qtd" name="qtd"  [(ngModel)]="qtd" />
+              </div>
+            </div>
+          </div>
+          <div class="float-right">
+            <a (click)="downloadCSV()" style="color:white" class="btn btn-sm btn-dark objectClick">    Download CSV   </a>&nbsp;
+          </div>
+          <!--<a (click)="abrirModalAdicionar()" style="color:white" class="btn btn-sm btn-info objectClick"><i class="fas fa-plus-square"></i> Calcular Forecast</a>-->
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <a>Pronosticos cadastrados</a>
+      </div>
+      <div class="card-body">
+          <div class="col-sm-12 mt-3">
+              <table class="mb-3">
+                <tr>
+                  <td>
+                    <div class="input-group">
+                      <input #buscarapida type="text" class="form-control form-control-sm" placeholder="Busca Rápida..." aria-label="Busca Rápida..." aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <button (click)="applyFilter(buscarapida)" class="btn btn-sm btn-primary" type="button"><i class="fas fa-search"></i></button>
+                      </div>
+                    </div>
+                  </td>
+                  <!-- <td class="">
+                    <button data-toggle="modal" data-target="#filtroModal" class="btn btn-sm btn-light ml-2"><i class="fas fa-search-plus"></i> Filtro Avançado</button>
+                  </td> -->
+                </tr>
+              </table>
+        <div *ngIf="rows == null" class="alert alert-danger">Os registros estão carregando... Aguarde, por favor!</div>
+                <div class="mat-elevation-z8" >
+                  <mat-paginator [pageSizeOptions]="[25, 100]"></mat-paginator>
+                  <table mat-table [dataSource]="rows" matSort>
+
+                    <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+
+                          <!--
+                          customer_order
+                          customer_grade
+                          rio
+                          mes_cod
+                          customer_name
+                          pacote
+                          modal
+                          po_amount
+                          prod_amount
+                          plan_amount
+                          due_date
+                        -->
+
+
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="customer_order">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Order</th>
+                      <td mat-cell *matCellDef="let item"> {{item.customer_order}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="customer_grade">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Grade</th>
+                      <td mat-cell *matCellDef="let item"> {{item.customer_grade}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="rio">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> RIO </th>
+                      <td mat-cell *matCellDef="let item"> {{item.rio}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mes_cod">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Mes Cod </th>
+                      <td mat-cell *matCellDef="let item"> {{item.mes_cod}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="customer_name">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Name</th>
+                      <td mat-cell *matCellDef="let item"> {{item.customer_name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="pacote">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Pacote</th>
+                      <td mat-cell *matCellDef="let item"> {{item.pacote}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="modal">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modal</th>
+                      <td mat-cell *matCellDef="let item"> {{item.modal}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="po_amount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Po Amount</th>
+                      <td mat-cell *matCellDef="let item"> {{item.po_amount}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="prod_amount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prod Amount</th>
+                      <td mat-cell *matCellDef="let item"> {{item.prod_amount}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="plan_amount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan Amount</th>
+                      <td mat-cell *matCellDef="let item"> {{item.plan_amount}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="open_amount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Open Amount</th>
+                      <td mat-cell *matCellDef="let item"> {{item.open_amount}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="due_date">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
+                      <td mat-cell *matCellDef="let item"> {{item.due_date}} </td>
+                    </ng-container>
+<!--
+                    <ng-container matColumnDef="rio">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>RIO</th>
+                      <td mat-cell *matCellDef="let item"> {{item.rio}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="rio2">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>RIO2</th>
+                      <td mat-cell *matCellDef="let item"> {{item.rio2}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="stocknumber">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock Number</th>
+                      <td mat-cell *matCellDef="let item"> {{item.stocknumber}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sapcustomer">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>SAP Customer</th>
+                      <td mat-cell *matCellDef="let item"> {{item.sapcustomer}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="packageno">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Package No</th>
+                      <td mat-cell *matCellDef="let item"> {{item.packageno}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="modal">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modal</th>
+                      <td mat-cell *matCellDef="let item"> {{item.modal}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                      <td mat-cell *matCellDef="let item"> {{item.quantity}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="customerduedatestart">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Duedate Start</th>
+                      <td mat-cell *matCellDef="let item"> {{item.customerduedatestart}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="subcode">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Subcode</th>
+                      <td mat-cell *matCellDef="let item"> {{item.subcode}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contrmargin">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Contr Margin</th>
+                      <td mat-cell *matCellDef="let item"> {{item.contrmargin}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="prodreference">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prod Reference</th>
+                      <td mat-cell *matCellDef="let item"> {{item.prodreference}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="finalapplication">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Final Application</th>
+                      <td mat-cell *matCellDef="let item"> {{item.finalapplication}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="price">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+                      <td mat-cell *matCellDef="let item"> {{item.price}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="segmento">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Segmento</th>
+                      <td mat-cell *matCellDef="let item"> {{item.segmento}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="csagrade">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>CSA Grade</th>
+                      <td mat-cell *matCellDef="let item"> {{item.csagrade}} </td>
+                    </ng-container> -->
+
+                    <!-- <ng-container matColumnDef="status">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                      <td mat-cell *matCellDef="let item"><span class="badge badge-dark fontNotBold" [ngStyle]="{ 'background-color': item.statusColor }">{{item.status}}</span> </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef>Ações</th>
+                      <td mat-cell *matCellDef="let item">
+                         <button class="btn btn-sm btn-warning mr-1"  *ngIf=" roles.includes('OPER_ALTERA_CONDUTOR')" [routerLink]="[item.id, 'editarCondutor']">Editar</button>
+                        <button class="btn btn-success btn-sm" *ngIf="item.status == 'Inativo' && roles.includes('OPER_ATIVA_CONDUTOR')" (click)="Ativar(item.id)">Ativar</button>
+                        <button class="btn btn-sm btn-danger" *ngIf="item.status != 'Inativo'  && roles.includes('OPER_BLOQUEIA_CONDUTOR')" (click)="Inativar(item.id)">Inativar</button>
+                      </td>
+                    </ng-container> -->
+
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                  </table>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Tela modal para adicionar que vou trabalhar-->
+<div class="modal fade" id="modalAdicionar" tabindex="-1" role="dialog" aria-labelledby="modalAdicionar" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="card-header">Calculo em Desenvolvimento!</div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-footer">
+          <!-- <button type="button" (click)="Adicionar(clienteIdAdd, transporteIdAdd, diasAdd, mesesAdd, peaAnoAdd, valorAdd.value)" class="btn btn-primary">Salva Mes</button> -->
+          <button type="button" (click)="CloseModal()" class="btn btn-primary">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Tela modal que vou trabalhar-->
+
+
+
+

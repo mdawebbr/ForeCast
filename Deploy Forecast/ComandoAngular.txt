@@ -1,0 +1,16 @@
+comandos Angular
+ng build --configuration=dev
+ng build --configuration=production
+
+
+ng build --configuration=dev
+Angular.json
+"baseHref": "/webstart/",
+"deployUrl": "/webstart/",
+
+trocar para sql do servidor TERBRDSPM02V01 Dapper
+GREEM.DAL\ConectionFactory.cs
+return ConfigurationManager.ConnectionStrings["Dapper"].ConnectionString;
+return ConfigurationManager.ConnectionStrings["Dapperlocal"].ConnectionString;
+
+Renomerar web.config
