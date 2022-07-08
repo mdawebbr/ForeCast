@@ -10,37 +10,35 @@
       <form [formGroup]="cadastrouserForm" (ngSubmit)="onFormSubmit()">
         <table>
           <tr>
+ 
+            <!--Linha_CAP -> Usuario / MercadoCAP -> Email / MercadoVF -> Password-->
 
             <td class="tbl1">
               <mat-form-field class="demo-full-width">
-                <input formControlName="Linha_CAP" matTooltip="Linha CAP" matInput placeholder="Digite Linha CAP" autocomplete="off">
+                <input formControlName="Usuario" matTooltip="Usuario" matInput placeholder="Digite Usuario" autocomplete="off">
               </mat-form-field>
               <mat-error>
-                <span *ngIf="!cadastrouserForm.get('Linha_CAP').value && cadastrouserForm.get('Linha_CAP').touched"></span>
+                <span *ngIf="!cadastrouserForm.get('Usuario').value && cadastrouserForm.get('Usuario').touched"></span>
               </mat-error>
             </td>
 
           </tr>
           <tr>
             <td class="tbl1">
-              <mat-form-field>
-                <mat-label>Mercado CAP</mat-label>
-                <mat-select (selectionChange)="FillMercadoVFDDL($event)" formControlName="MercadoCAP" matTooltip="Selecione Mercado CAP" autocomplete="off">
-                  <mat-option *ngFor="let MercadoCAP of (allMercadoCAP | async)" [value]="MercadoCAP.MercadoCAPId">
-                    {{MercadoCAP.Mercado_CAP}}
-                  </mat-option>
-                </mat-select>
+              <mat-form-field class="demo-full-width">
+                <input formControlName="Password" matTooltip="Password" matInput placeholder="Digite Password" autocomplete="off">
               </mat-form-field>
+              <mat-error>
+                <span *ngIf="!cadastrouserForm.get('Password').value && cadastrouserForm.get('Password').touched"></span>
+              </mat-error>
             </td>
             <td class="tbl1">
-              <mat-form-field>
-                <mat-label>Mercado VF</mat-label>
-                <mat-select (selectionChange)="FillLinhaCAPDDL($event)" formControlName="MercadoVF" matTooltip="Selecione Mercado VF" autocomplete="off">
-                  <mat-option *ngFor="let MercadoVF of (allMercadoVF | async)" [value]="MercadoVF.MercadoVFId">
-                    {{MercadoVF.Mercado_VF}}
-                  </mat-option>
-                </mat-select>
+              <mat-form-field class="demo-full-width">
+                <input formControlName="Password" matTooltip="Password" matInput placeholder="Digite Password" autocomplete="off">
               </mat-form-field>
+              <mat-error>
+                <span *ngIf="!cadastrouserForm.get('Password').value && cadastrouserForm.get('Password').touched"></span>
+              </mat-error>
             </td>
           </tr>
           <tr>
@@ -86,33 +84,40 @@
               </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="Linha_CAP">
-              <mat-header-cell  *matHeaderCellDef mat-sort-header> Linha CAP </mat-header-cell>
-              <mat-cell  *matCellDef="let linhacap"> {{linhacap.Linha_CAP}} </mat-cell>
+            <ng-container matColumnDef="Usuario">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Usuario </mat-header-cell>
+              <mat-cell  *matCellDef="let cadastroUsuario"> {{cadastroUsuario.Usuario}} </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="MercadoCAP">
-              <mat-header-cell  *matHeaderCellDef mat-sort-header> Mercado CAP </mat-header-cell>
-              <mat-cell  *matCellDef="let linhacap"> {{linhacap.MercadoCAP}} </mat-cell>
+            
+            <ng-container matColumnDef="Email">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+              <mat-cell  *matCellDef="let cadastroUsuario"> {{cadastroUsuario.Email}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="MercadoVF">
-              <mat-header-cell  *matHeaderCellDef mat-sort-header> Mercado VF </mat-header-cell>
-              <mat-cell  *matCellDef="let linhacap"> {{linhacap.MercadoVF}} </mat-cell>
+            <ng-container matColumnDef="Password">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Password </mat-header-cell>
+              <mat-cell  *matCellDef="let cadastroUsuario"> {{cadastroUsuario.Password}} </mat-cell>
             </ng-container>
+            
+            <ng-container matColumnDef="IsAdmin">
+              <mat-header-cell  *matHeaderCellDef mat-sort-header> Administrador </mat-header-cell>
+              <mat-cell  *matCellDef="let cadastroUsuario"> {{cadastroUsuario.IsAdmin}} </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="Edit">
               <mat-header-cell  *matHeaderCellDef mat-sort-header> Editar </mat-header-cell>
 
-              <mat-cell  *matCellDef="let linhacap">
-                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadLinhacapToEdit(linhacap.LinhaCAPId)"><mat-icon>edit</mat-icon></button>
+              <mat-cell  *matCellDef="let cadastroUsuario">
+                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" type="button" mat-raised-button color="accent" matTooltip="Edit" (click)="loadcadastroUsuarioToEdit(cadastroUsuario.UsuarioId)"><mat-icon>edit</mat-icon></button>
               </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="Delete">
               <mat-header-cell  *matHeaderCellDef mat-sort-header> Excluir </mat-header-cell>
 
-              <mat-cell  *matCellDef="let linhacap">
+              <mat-cell  *matCellDef="let cadastroUsuario">
 
-                <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="deleteLinhacap(linhacap.LinhaCAPId)"><mat-icon>delete_forever</mat-icon></button>
+                <button mat-icon-button aria-label="Example icon button with a delete icon" type="button" mat-raised-button color="primary" matTooltip="Delete" (click)="deletecadastroUsuario(cadastroUsuario.UsuarioId)"><mat-icon>delete_forever</mat-icon></button>
               </mat-cell>
             </ng-container>
 

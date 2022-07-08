@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CadastrousuarioService } from  '../../service/cadastrousuario/cadastrousuario.service';
-import { Linhacap } from '../../model/linhacap';
+import { Cadastrousuario } from '../../model/Cadastrousuario';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, } from '@angular/material/table';
@@ -21,12 +21,14 @@ interface MercadoVF {
   MercadoCAPId: string;
 }
 
-interface City {
-  LinhaCAPId: string;
-  Linha_CAPName: string;
-  MercadoVFId: string;
-  MercadoCAPId: string;
+interface Usuario {
+  Id: string;
+  Usuario: string;
+  Email: string;
+  Password: string;
+  IsAdmin: string;
 }
+
 @Component({
   selector: 'app-cadastrousuario',
   templateUrl: './cadastrousuario.component.html',
@@ -35,27 +37,24 @@ interface City {
 export class CadastrousuarioComponent implements OnInit {
   dataSaved = false;
   cadastrouserForm: any;
-  allLinhacaps: Observable<Linhacap[]>;
-  dataSource: MatTableDataSource<Linhacap>;
-  selection = new SelectionModel<Linhacap>(true, []);
-  linhacapIdUpdate = null;
+  allCadastrousuarios: Observable<Cadastrousuario[]>;
+  dataSource: MatTableDataSource<Cadastrousuario>;
+  selection = new SelectionModel<Cadastrousuario>(true, []);
+  cadastrousuarioIdUpdate = null;
   massage = null;
+
   allMercadoCAP: Observable<MercadoCAP[]>;
   allMercadoVF: Observable<MercadoVF[]>;
-  //allCity: Observable<City[]>;
-  MercadoCAPId = null;
-  MercadoVFId = null;
-  //CityId = null;
+  
+  
+  Email = null;
+  Password = null;
+  IsAdmin = null;
+  
   SelectedDate = null;
-  //isMale = true;
-  //isFeMale = false;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
-  //displayedColumns: string[] = ['select', 'Linha_CAP', 'LastName', 'DateofBirth', 'EmailId', 'Gender', 'MercadoCAP', 'MercadoVF', 'City', 'Address', 'Pincode', 'Edit', 'Delete'];
-  //displayedColumns: string[] = ['select', 'Linha_CAP', 'MercadoCAP', 'MercadoVF', 'City', 'Edit', 'Delete'];
-
-  displayedColumns: string[] = ['select', 'Linha_CAP', 'MercadoCAP', 'MercadoVF', 'Edit', 'Delete'];
+  displayedColumns: string[] = ['select', 'Usuario', 'Email', 'Password', 'IsAdmin', 'Edit', 'Delete'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -66,11 +65,7 @@ export class CadastrousuarioComponent implements OnInit {
     public dialog: MatDialog)
   {
 
-    // displayedColumns: string[] = ['select', 'Linha_CAP', 'MercadoCAP', 'MercadoVF', 'Edit', 'Delete'];
-    // @ViewChild(MatPaginator) paginator: MatPaginator;
-    // @ViewChild(MatSort) sort: MatSort;
-
-    this.CadastrousuarioService.getAllLinhacap().subscribe(data =>
+    this.CadastrousuarioService.getAllCadastrousuario().subscribe(data =>
     {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
@@ -81,18 +76,13 @@ export class CadastrousuarioComponent implements OnInit {
 
   ngOnInit() {
     this.cadastrouserForm = this.formbulider.group({
-      Linha_CAP: ['', [Validators.required]],
-      //LastName: ['', [Validators.required]],
-      //DateofBirth: ['', [Validators.required]],
-      //EmailId: ['', [Validators.required]],
-      //Gender: ['', [Validators.required]],
-      //Address: ['', [Validators.required]],
-      MercadoCAP: ['', [Validators.required]],
-      MercadoVF: ['', [Validators.required]],
-      //City: ['', [Validators.required]],
-      //Pincode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{6}')])]
+      Usuario: ['', [Validators.required]],
+      Email: ['', [Validators.required]],
+      Password: ['', [Validators.required]],
+      IsAdmin: ['', [Validators.required]]
     });
-    this.FillMercadoCAPDDL();
+
+    //this.FillMercadoCAPDDL();
     //this.dataSource.paginator = this.paginator;
     //this.dataSource.sort = this.sort;
   }
@@ -108,11 +98,11 @@ export class CadastrousuarioComponent implements OnInit {
     this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(r => this.selection.select(r));
   }
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row: Linhacap): string {
+  checkboxLabel(row: Cadastrousuario): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.LinhaCAPId + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.Id + 1}`;
   }
 
   DeleteData() {
@@ -122,7 +112,7 @@ export class CadastrousuarioComponent implements OnInit {
       if (confirm("Are you sure to delete items ")) {
         this.CadastrousuarioService.deleteData(numSelected).subscribe(result => {
           this.SavedSuccessful(2);
-          this.loadAllLinhacaps();
+          this.loadAllCadastrousuario();
         })
       }
     } else {
@@ -138,8 +128,8 @@ export class CadastrousuarioComponent implements OnInit {
     }
   }
 
-  loadAllLinhacaps() {
-    this.CadastrousuarioService.getAllLinhacap().subscribe(data => {
+  loadAllCadastrousuario() {
+    this.CadastrousuarioService.getAllCadastrousuario().subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -148,100 +138,86 @@ export class CadastrousuarioComponent implements OnInit {
 
   onFormSubmit() {
     this.dataSaved = false;
-    const linhacap = this.cadastrouserForm.value;
-    this.CreateLinhacap(linhacap);
+    const cadastrousuario = this.cadastrouserForm.value;
+    this.CreateCadastrousuario(cadastrousuario);
     this.cadastrouserForm.reset();
   }
 
-  loadLinhacapToEdit(linhacapId: string) {
-    this.CadastrousuarioService.getLinhacapById(linhacapId).subscribe(linhacap => {
+  loadcadastroUsuarioToEdit(linhacapId: string) {
+    this.CadastrousuarioService.getCadastrousuarioById(linhacapId).subscribe(cadastrousuario => {
       this.massage = null;
       this.dataSaved = false;
-      this.linhacapIdUpdate = linhacap.LinhaCAPId;
-      this.cadastrouserForm.controls['Linha_CAP'].setValue(linhacap.Linha_CAP);
-      //this.linhacapForm.controls['LastName'].setValue(linhacap.LastName);
-      //this.linhacapForm.controls['DateofBirth'].setValue(linhacap.DateofBirth);
-      //this.linhacapForm.controls['EmailId'].setValue(linhacap.EmailId);
-      //this.linhacapForm.controls['Gender'].setValue(linhacap.Gender);
-      //this.linhacapForm.controls['Address'].setValue(linhacap.Address);
-      //this.linhacapForm.controls['Pincode'].setValue(linhacap.Pincode);
-      this.cadastrouserForm.controls['MercadoCAP'].setValue(linhacap.MercadoCAPId);
-      this.allMercadoVF = this.CadastrousuarioService.getMercadoVF(linhacap.MercadoCAPId);
-      this.MercadoCAPId = linhacap.MercadoCAPId;
-      this.cadastrouserForm.controls['MercadoVF'].setValue(linhacap.MercadoVFId);
-      //this.allCity = this.LinhacapService.getCity(linhacap.MercadoVFId);
-      this.MercadoVFId = linhacap.MercadoVFId;
-      //this.linhacapForm.controls['City'].setValue(linhacap.Cityid);
-      //this.CityId = linhacap.Cityid;
-      //this.isMale = linhacap.Gender.trim() == "0" ? true : false;
-      //this.isFeMale = linhacap.Gender.trim() == "1" ? true : false;
+      this.cadastrousuarioIdUpdate = cadastrousuario.Id;
+      this.cadastrouserForm.controls['Usuario'].setValue(cadastrousuario.Usuario);
+      this.cadastrouserForm.controls['Email'].setValue(cadastrousuario.Email);
+      this.cadastrouserForm.controls['Password'].setValue(cadastrousuario.Password);
+
     });
 
   }
-  deleteLinhacap(linhacapId: string) {
+  deletecadastroUsuario(linhacapId: string) {
     if (confirm("Quer realmente excluir esse registro ?")) {
-      this.CadastrousuarioService.deleteLinhacapById(linhacapId).subscribe(() => {
+      this.CadastrousuarioService.deleteCadastrousuarioById(linhacapId).subscribe(() => {
         this.dataSaved = true;
         this.SavedSuccessful(2);
-        this.loadAllLinhacaps();
-        this.linhacapIdUpdate = null;
+        this.loadAllCadastrousuario();
+        this.cadastrousuarioIdUpdate = null;
         this.cadastrouserForm.reset();
 
       });
     }
 
   }
-  CreateLinhacap(linhacap: Linhacap) {
+  CreateCadastrousuario(cadastrousuario: Cadastrousuario) {
     //console.log(linhacap.DateofBirth);
-    if (this.linhacapIdUpdate == null) {
-      linhacap.MercadoCAPId = this.MercadoCAPId;
-      linhacap.MercadoVFId = this.MercadoVFId;
-      //linhacap.Cityid = this.CityId;
+    if (this.cadastrousuarioIdUpdate == null) {
+      cadastrousuario.Email = this.Email;
+      cadastrousuario.Password = this.Password;
 
-      this.CadastrousuarioService.createLinhacap(linhacap).subscribe(
+      this.CadastrousuarioService.createCadastrousuario(cadastrousuario).subscribe(
         () => {
           this.dataSaved = true;
           this.SavedSuccessful(1);
-          this.loadAllLinhacaps();
-          this.linhacapIdUpdate = null;
+          this.loadAllCadastrousuario();
+          this.cadastrousuarioIdUpdate = null;
           this.cadastrouserForm.reset();
         }
       );
     } else {
-      linhacap.LinhaCAPId = this.linhacapIdUpdate;
-      linhacap.MercadoCAPId = this.MercadoCAPId;
-      linhacap.MercadoVFId = this.MercadoVFId;
+      cadastrousuario.Id = this.cadastrousuarioIdUpdate;
+      cadastrousuario.Email = this.Email;
+      cadastrousuario.Password = this.Password;
       //linhacap.Cityid = this.CityId;
-      this.CadastrousuarioService.updateLinhacap(linhacap).subscribe(() => {
+      this.CadastrousuarioService.updateCadastrousuario(cadastrousuario).subscribe(() => {
         this.dataSaved = true;
         this.SavedSuccessful(0);
-        this.loadAllLinhacaps();
-        this.linhacapIdUpdate = null;
+        this.loadAllCadastrousuario();
+        this.cadastrousuarioIdUpdate = null;
         this.cadastrouserForm.reset();
       });
     }
   }
 
 
-  FillMercadoCAPDDL() {
-    this.allMercadoCAP = this.CadastrousuarioService.getMercadoCAP();
-    this.allMercadoVF = this.MercadoVFId ;//= this.allCity = this.CityId = null;
-    console.log(this.allMercadoCAP);
-    console.log(this.allMercadoVF);
-  }
+  // FillMercadoCAPDDL() {
+  //   this.allMercadoCAP = this.CadastrousuarioService.getMercadoCAP();
+  //   this.allMercadoVF = this.MercadoVFId ;//= this.allCity = this.CityId = null;
+  //   console.log(this.allMercadoCAP);
+  //   console.log(this.allMercadoVF);
+  // }
 
-  FillMercadoVFDDL(SelMercadoCAPId) {
-    this.allMercadoVF = this.CadastrousuarioService.getMercadoVF(SelMercadoCAPId.value);
-    this.MercadoCAPId = SelMercadoCAPId.value;
-    console.log(this.allMercadoVF);
-    console.log(this.MercadoCAPId);
-    //this.allCity = this.CityId = null;
-  }
+  // FillMercadoVFDDL(SelMercadoCAPId) {
+  //   this.allMercadoVF = this.CadastrousuarioService.getMercadoVF(SelMercadoCAPId.value);
+  //   this.MercadoCAPId = SelMercadoCAPId.value;
+  //   console.log(this.allMercadoVF);
+  //   console.log(this.MercadoCAPId);
+  //   //this.allCity = this.CityId = null;
+  // }
 
-  FillLinhaCAPDDL(SelMercadoVFId) {
-    //this.allCity = this.LinhacapService.getCity(SelMercadoVFId.value);
-    this.MercadoVFId = SelMercadoVFId.value
-  }
+  // FillLinhaCAPDDL(SelMercadoVFId) {
+  //   //this.allCity = this.LinhacapService.getCity(SelMercadoVFId.value);
+  //   this.MercadoVFId = SelMercadoVFId.value
+  // }
 
   GetSelectedCity(City) {
     //this.CityId = City.value;
@@ -253,7 +229,7 @@ export class CadastrousuarioComponent implements OnInit {
     this.dataSaved = false;
     //this.isMale = true;
     //this.isFeMale = false;
-    this.loadAllLinhacaps();
+    this.loadAllCadastrousuario();
   }
 
   SavedSuccessful(isUpdate) {

@@ -12,33 +12,33 @@ using PlanoEmbarque.API.Models;
 namespace GREM.API.Controllers
 {
     [EnableCors("*", "*", "*")]
-    [RoutePrefix("api/Linhacap")]
-    public class LinhaCAPController : ApiController
+    [RoutePrefix("api/Cadastrousuario")]
+    public class CadastroUsuarioController : ApiController
     {
         //AngulerDBEntities objEntity = new AngulerDBEntities();
 
         Models.ForeCast objEntity = new Models.ForeCast();
 
         [HttpGet]
-        [Route("AllLinhacapDetails")]
+        [Route("AllCadastrousuarioDetails")]
         public IHttpActionResult GetEmaployee()
         {
             //AngulerDBEntities para ForeCast 
-            //tblEmployeeMaster para FC_LinhaCAP
+            //tblEmployeeMaster para FC_CadastroUsuario
             //CountryMasters    para FC_MercadoCAP
             //StateMasters      para FC_MercadoVF
-            //CityMasters       para FC_LinhaCAP
+            //CityMasters       para FC_CadastroUIsuario
 
-            //tblEmp            para tblLinhaCAP
+            //tblEmp            para tblCadastroUsuario
             //tblCountry        para tblMercadoCAP
             //tblState          para tblMercadoVF
-            //tblCity           para tblLinhaCAP
+            //tblCity           para tblCadastroUsuario
 
             //Country           para MercadoCAP
             //State             para MercadoVF
-            //City              para LinhaCAP
+            //City              para CadastroUsuario
 
-            //EmpId             para LinhaCAPId
+            //EmpId             para CadastroUsuarioId
             //FirstName         para Linha_CAP
 
             //CoutryId          para MercadoCAPId
@@ -49,20 +49,20 @@ namespace GREM.API.Controllers
 
             try
             {
-                var result = (from tblLinhaCAP in objEntity.FC_LinhaCAP
-                              join tblMercadoCAP in objEntity.FC_MercadoCAP on tblLinhaCAP.MercadoCAPId equals tblMercadoCAP.MercadoCAPId
-                              join tblMercadoVF in objEntity.FC_MercadoVF on tblLinhaCAP.MercadoVFId equals tblMercadoVF.MercadoVFId
+                var result = (from tblCadastroUsuario in objEntity.FC_CadastroUsuario
+                              join tblMercadoCAP in objEntity.FC_MercadoCAP on tblCadastroUsuario.MercadoCAPId equals tblMercadoCAP.MercadoCAPId
+                              join tblMercadoVF in objEntity.FC_MercadoVF on tblCadastroUsuario.MercadoVFId equals tblMercadoVF.MercadoVFId
                               //join tblCity in objEntity.CityMasters on tblEmp.Cityid equals tblCity.Cityid
                               select new
                               {
-                                  LinhaCAPId = tblLinhaCAP.LinhaCAPId,
-                                  Linha_CAP = tblLinhaCAP.Linha_CAP,
+                                  CadastroUsuarioId = tblCadastroUsuario.CadastroUsuarioId,
+                                  Linha_CAP = tblCadastroUsuario.Linha_CAP,
                                   //LastName = tblEmp.LastName,
                                   //DateofBirth = tblEmp.DateofBirth,
                                   //EmailId = tblEmp.EmailId,
                                   //Gender = tblEmp.Gender,
-                                  MercadoCAPId = tblLinhaCAP.MercadoCAPId,
-                                  MercadoVFId = tblLinhaCAP.MercadoVFId,
+                                  MercadoCAPId = tblCadastroUsuario.MercadoCAPId,
+                                  MercadoVFId = tblCadastroUsuario.MercadoVFId,
                                   //Cityid = tblEmp.Cityid,
                                   //Address = tblEmp.Address,
                                   //Pincode = tblEmp.Pincode,
@@ -80,19 +80,19 @@ namespace GREM.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetLinhacapDetailsById/{linhacapId}")]
+        [Route("GetCadastrousuarioDetailsById/{linhacapId}")]
         public IHttpActionResult GetEmaployeeById(string linhacapId)
         {
             try
             {
                 //tblEmployeeMaster objEmp = new tblEmployeeMaster();
                 
-                FC_LinhaCAP objEmp = new FC_LinhaCAP();
+                FC_CadastroUsuario objEmp = new FC_CadastroUsuario();
 
                 int ID = Convert.ToInt32(linhacapId);
                 try
                 {
-                    objEmp = objEntity.FC_LinhaCAP.Find(ID);
+                    objEmp = objEntity.FC_CadastroUsuario.Find(ID);
                     if (objEmp == null)
                     {
                         return NotFound();
@@ -111,8 +111,8 @@ namespace GREM.API.Controllers
         }
 
         [HttpPost]
-        [Route("InsertLinhacapDetails")]
-        public IHttpActionResult PostEmaployee(FC_LinhaCAP data)
+        [Route("InsertCadastrousuarioDetails")]
+        public IHttpActionResult PostEmaployee(FC_CadastroUsuario data)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace GREM.API.Controllers
                 try
                 {
                     //data.DateofBirth = data.DateofBirth.HasValue ? data.DateofBirth.Value.AddDays(1) : (DateTime?)null;
-                    objEntity.FC_LinhaCAP.Add(data);
+                    objEntity.FC_CadastroUsuario.Add(data);
                     objEntity.SaveChanges();
                 }
                 catch (Exception)
@@ -139,8 +139,8 @@ namespace GREM.API.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateLinhacapDetails")]
-        public IHttpActionResult PutEmaployeeMaster(FC_LinhaCAP employee)
+        [Route("UpdateCadastrousuarioDetails")]
+        public IHttpActionResult PutEmaployeeMaster(FC_CadastroUsuario employee)
         {
             try
             {
@@ -149,8 +149,8 @@ namespace GREM.API.Controllers
 
                 try
                 {
-                    FC_LinhaCAP objEmp = new FC_LinhaCAP();
-                    objEmp = objEntity.FC_LinhaCAP.Find(employee.LinhaCAPId);
+                    FC_CadastroUsuario objEmp = new FC_CadastroUsuario();
+                    objEmp = objEntity.FC_CadastroUsuario.Find(employee.CadastroUsuarioId);
                     if (objEmp != null)
                     {
                         objEmp.Linha_CAP = employee.Linha_CAP;
@@ -178,17 +178,17 @@ namespace GREM.API.Controllers
             }
         }
         [HttpDelete]
-        [Route("DeleteLinhacapDetails")]
+        [Route("DeleteCadastrousuarioDetails")]
         public IHttpActionResult DeleteEmaployeeDelete(int id)
         {
             try
             {
-                FC_LinhaCAP emaployee = objEntity.FC_LinhaCAP.Find(id);
+                FC_CadastroUsuario emaployee = objEntity.FC_CadastroUsuario.Find(id);
                 if (emaployee == null)
                 {
                     return NotFound();
                 }
-                objEntity.FC_LinhaCAP.Remove(emaployee);
+                objEntity.FC_CadastroUsuario.Remove(emaployee);
                 objEntity.SaveChanges();
                 return Ok(emaployee);
             }
@@ -239,13 +239,13 @@ namespace GREM.API.Controllers
             }
         }
 
-        [Route("MercadoVF/{MercadoVFId}/LinhaCAP")]
+        [Route("MercadoVF/{MercadoVFId}/CadastroUsuario")]
         [HttpGet]
-        public List<FC_LinhaCAP> CityData(int MercadoVFId)
+        public List<FC_CadastroUsuario> CityData(int MercadoVFId)
         {
             try
             {
-                return objEntity.FC_LinhaCAP.Where(s => s.MercadoVFId == MercadoVFId).ToList();
+                return objEntity.FC_CadastroUsuario.Where(s => s.MercadoVFId == MercadoVFId).ToList();
             }
             catch (Exception ex)
             {
@@ -255,7 +255,7 @@ namespace GREM.API.Controllers
 
         [HttpPost]
         [Route("DeleteRecord")]
-        public IHttpActionResult DeleteRecord(List<FC_LinhaCAP> user)
+        public IHttpActionResult DeleteRecord(List<FC_CadastroUsuario> user)
         {
             string result = "";
             if (!ModelState.IsValid)
@@ -272,15 +272,15 @@ namespace GREM.API.Controllers
             }
             return Ok(result);
         }
-        private string DeleteData(List<FC_LinhaCAP> users)
+        private string DeleteData(List<FC_CadastroUsuario> users)
         {
             string str = "";
             try
             {
                 foreach (var item in users)
                 {
-                    FC_LinhaCAP objEmp = new FC_LinhaCAP();
-                    objEmp.LinhaCAPId = item.LinhaCAPId;
+                    FC_CadastroUsuario objEmp = new FC_CadastroUsuario();
+                    objEmp.CadastroUsuarioId = item.CadastroUsuarioId;
                     objEmp.Linha_CAP = item.Linha_CAP;
                     //objEmp.LastName = item.LastName;
                     //objEmp.Address = item.Address;
@@ -289,13 +289,13 @@ namespace GREM.API.Controllers
                     //objEmp.Gender = item.Gender;
                     objEmp.MercadoCAPId = item.MercadoCAPId;
                     objEmp.MercadoVFId = item.MercadoVFId;
-                    //objEmp.LinhaCAPId = item.LinhaCAPId;
+                    //objEmp.CadastroUsuarioId = item.CadastroUsuarioId;
                     //objEmp.Pincode = item.Pincode;
 
                     var entry = objEntity.Entry(objEmp);
-                    if (entry.State == EntityState.Detached) objEntity.FC_LinhaCAP.Attach(objEmp);
+                    if (entry.State == EntityState.Detached) objEntity.FC_CadastroUsuario.Attach(objEmp);
                     
-                    objEntity.FC_LinhaCAP.Remove(objEmp);
+                    objEntity.FC_CadastroUsuario.Remove(objEmp);
                 }
                 int i = objEntity.SaveChanges();
                 if (i > 0)
